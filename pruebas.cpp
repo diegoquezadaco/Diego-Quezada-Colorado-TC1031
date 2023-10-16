@@ -9,7 +9,6 @@
 #include <chrono>
 #include "Tienda.csv"
 #include "PrendaRopa.h"
-#include "ClosetLavadora.h"
 #include "AVL.h"
 #include "Closet.csv"
 

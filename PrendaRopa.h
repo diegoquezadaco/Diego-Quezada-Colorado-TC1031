@@ -52,6 +52,8 @@ class PrendaRopa {
                 string _material, string _estado, int _puestas, int _id);
     //creamos un constructor que reciba como prámetro un Node que apunte a una variable de tipo PrendaRopa
     PrendaRopa(Node<PrendaRopa> *nodo);
+    
+    template <class T>
     friend class Node;
 };
 

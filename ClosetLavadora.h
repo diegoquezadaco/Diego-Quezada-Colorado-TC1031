@@ -23,6 +23,8 @@
 #include "Closet.csv"
 #include "Tienda.csv"
 #include <fstream>
+#include <vector>
+#include <sstream>
 using namespace std;
 
 //Clase ClosetLavadora
@@ -780,7 +782,8 @@ void ClosetLavadora::creaCloset(){
 void ClosetLavadora::creaTienda(){
     using namespace std;
     string prendas[100];
-    ifstream archivoCSV("Tienda.csv");
+    std::ifstream archivoCSV;
+    archivoCSV.open("Tienda.csv");
     string texto;
     int num = 0;
     if(archivoCSV.fail()){

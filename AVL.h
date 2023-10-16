@@ -47,7 +47,7 @@ public:
     Node<T>* rot_right(Node<T>* );
     Node<T>* rot_left_right(Node<T>* );
     Node<T>* rot_right_left(Node<T>* );
-    void mostrarDatoss();
+    string mostrarDatoss();
     Node<T>* search(int _id);
     void filtrarTipo(string _query);
     void filtrarColor(string _query);
@@ -55,9 +55,24 @@ public:
     void filtrarMaterial(string _query);
     void filtrarEstado(string _query);
     void ordenarPuestas(int _p, string _tipo);
-
-
-    
+    operator == (const Node<T> &n1, const Node<T> &n2){
+        return n1.value == n2.value;
+    }
+    operator < (const Node<T> &n1, const Node<T> &n2){
+        return n1.value < n2.value;
+    }
+    operator > (const Node<T> &n1, const Node<T> &n2){
+        return n1.value > n2.value;
+    }
+    operator <= (const Node<T> &n1, const Node<T> &n2){
+        return n1.value <= n2.value;
+    }
+    operator >= (const Node<T> &n1, const Node<T> &n2){
+        return n1.value >= n2.value;
+    }
+    operator != (const Node<T> &n1, const Node<T> &n2){
+        return n1.value != n2.value;
+    }
     friend class AVL<T>;
 };
 
@@ -70,7 +85,7 @@ Node<T>::Node(T val, Node<T> *le, Node<T> *ri, int lev, int bal)
 
 template <class T>
 void Node<T>::add(T val) {
-    if (val < value) {
+    if (val.id < value.id) {
         if (left != 0) {
             left->add(val);
         } else {
@@ -85,13 +100,14 @@ void Node<T>::add(T val) {
     }
 }
 
+
 template <class T>
 bool Node<T>::find(T val) {
-    if (val == value) {
+    if (val.id == value.id) {
         return true;
-    } else if (val < value) {
+    } else if (val.id < value.id) {
         return (left != 0 && left->find(val));
-    } else if (val > value) {
+    } else if (val.id > value.id) {
         return (right != 0 && right->find(val));
     }
     return false;
@@ -100,9 +116,9 @@ bool Node<T>::find(T val) {
 template <class T>
 void Node<T>::remove(T val) {
     Node<T> * succ, *old;
-    if (val < value) {
+    if (val.id < value.id) {
         if (left != 0) {
-            if (left->value == val) {
+            if ((left->value).id == val.id) {
                 old = left;
                 if (old->right == 0) {
                     left = old->left;
@@ -118,9 +134,9 @@ void Node<T>::remove(T val) {
                 left->remove(val);
             }
         }
-    } else if (val > value) {
+    } else if (val.id > value.id) {
         if (right != 0) {
-            if (right->value == val) {
+            if ((right->value).id == val.id) {
                 old = right;
                 if (old->right == 0) {
                     right = old->left;
@@ -175,7 +191,7 @@ void Node<T>::inorder(std::stringstream &aux) const {
     if (aux.tellp() != 1) {
         aux << " ";
     }
-    aux << value->id;
+    aux << value.id;
     if (right != 0) {
         right->inorder(aux);
     }
@@ -357,17 +373,16 @@ Node<T>*  Node<T>::rot_right_left(Node<T>* a){
 }
 
 template <class T>
-void Node<T>::mostrarDatoss(){
+string Node<T>::mostrarDatoss(){
+    stringstream aux;
     if (left != 0){
         left->mostrarDatoss();
-        this->value.mostrarDatos();
-
     }
-    value.mostrarDatoss();
+    value.mostrarDatos();
     if (right != 0){
         right->mostrarDatoss();
-        this->value.mostrarDatos();
     }
+    return aux.str();
 }
 
 template <class T>
@@ -375,7 +390,7 @@ Node<T>* Node<T>::search(int _id){
     if (left != 0){
         left->search(_id);
     }
-    if (value.getId() == _id){
+    if (value.getID() == _id){
         return this;
     }
     if (right != 0){
@@ -531,7 +546,7 @@ void AVL<T>::add(T val) {
     if (root != 0) {
         if (!root->find(val)) {
             Node <T> *temp;
-            bool check_val = false;
+            T check_val = false;
             bool aux = false;
             root->add(val);
             root->max_depth();
