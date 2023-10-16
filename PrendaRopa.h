@@ -15,6 +15,7 @@
 #define   PRENDAROPA_H
 #include <iostream>
 #include <string>
+#include "AVL.h"
 using namespace std;
 
 //Clase PrendaRopa
@@ -22,6 +23,7 @@ class PrendaRopa {
         
     protected:
     //Declaro las variables de instancia
+    int id;
     string nombre;
     string tipo;
     string color;
@@ -30,8 +32,10 @@ class PrendaRopa {
     string estado;
     int puestas;
 
+
     public:
     //Declaro los metodos de clase
+    int getID();
     string getNombre();
     string getTipo();
     string getColor();
@@ -39,20 +43,30 @@ class PrendaRopa {
     string getMaterial();
     string getEstado();
     int getPuestas();
+    void setID(int _id);
     void setNombre(string _nombre);
     void setPuestas(int _puestas);
     void setEstado(string _estado);
     void mostrarDatos();
     PrendaRopa(string _nombre, string _tipo, string _color, string _talla, 
-                string _material, string _estado, int _puestas);
-
-
-
-
-
+                string _material, string _estado, int _puestas, int _id);
+    //creamos un constructor que reciba como prámetro un Node que apunte a una variable de tipo PrendaRopa
+    PrendaRopa(Node<PrendaRopa> *nodo);
+    friend class Node;
 };
 
 //Metodos de clase
+/**
+ * getID
+ * Este metodo regresa el id de la prenda
+ * 
+ * @param
+ * @return int id
+ * 
+ */
+int PrendaRopa::getID(){
+    return id;
+}
 /**
  * getNombre
  * Este metodo regresa el nombre de la prenda
@@ -130,6 +144,9 @@ string PrendaRopa::getEstado(){
 int PrendaRopa::getPuestas(){
     return puestas;
 }
+void PrendaRopa::setID(int _id){
+    id = _id;
+}
 /**
  * setNombre
  * Este metodo asigna el nombre de la prenda
@@ -138,6 +155,8 @@ int PrendaRopa::getPuestas(){
  * @return
  * 
  */
+
+
 void PrendaRopa::setNombre(string _nombre){
     nombre = _nombre;
 }
@@ -172,6 +191,7 @@ void PrendaRopa::mostrarDatos(){
     cout << "Material: " << material << endl;
     cout << "Estado: " << estado << endl;
     cout << "Puestas: " << puestas << endl;
+    cout << "ID: " << id << endl;
     cout << endl;
 }
 /**
@@ -189,7 +209,7 @@ void PrendaRopa::mostrarDatos(){
  * 
  */
 PrendaRopa::PrendaRopa(string _nombre, string _tipo, string _color, string _talla, 
-                string _material, string _estado, int _puestas){
+                string _material, string _estado, int _puestas, int _id){
     nombre = _nombre;
     tipo = _tipo;
     color = _color;
@@ -197,5 +217,16 @@ PrendaRopa::PrendaRopa(string _nombre, string _tipo, string _color, string _tall
     material = _material;
     estado = _estado;
     puestas = _puestas;
+    id = _id;
 }
-#endif
+
+PrendaRopa::PrendaRopa(Node<PrendaRopa> *nodo){
+    nombre = nodo->value.getNombre();
+    tipo = nodo->value.getTipo();
+    color = nodo->value.getColor();
+    talla = nodo->value.getTalla();
+    material = nodo->value.getMaterial();
+    estado = nodo->value.getEstado();
+    puestas = nodo->value.getPuestas();
+}
+#endif /* PRENDAROPA_H */

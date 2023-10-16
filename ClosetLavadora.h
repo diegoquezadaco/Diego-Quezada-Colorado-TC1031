@@ -1,65 +1,77 @@
 /**
  * Proyecto Integrador - TC1031
- * Proyecto ClosetLavadora intelugente
+ * Proyecto ClosetLavadora inteligente
  * Diego Quezada Colorado A01710024
- * 08/09/2023 
+ * 15/10/2023 
 */
 /**
  * Clase ClosetLavadora
  * Esta es la clase que contiene las prendas de ropa
- * Sera compuesta por objetos de ClosetLavadora
+ * Sera compuesta por objetos de la clase PrendaRopa
+ * Estará basado en la funcionalidad original de ClosetLavadora_borrador.h
+ * sin emabrgo, ahora utilizará un arbol AVL para almacenar las prendas, en lugar de un arreglo
+ * pero implementará el AVL como una clase
  * 
 */
 
-#ifndef   CLOSETLAVADORA_H
-#define   CLOSETLAVADORA_H
+#ifndef CLOSETLAVADORA_H
+#define CLOSETLAVADORA_H
 #include <iostream>
 #include <string>
-#include <algorithm>
 #include "PrendaRopa.h"
+#include "AVL.h"
+#include "Closet.csv"
+#include "Tienda.csv"
+#include <fstream>
 using namespace std;
 
 //Clase ClosetLavadora
 class ClosetLavadora {
-        
     private:
     //Declaro las variables de instancia
-    PrendaRopa *closet[100];
-    PrendaRopa *tienda[50];
+    AVL<PrendaRopa> *Closet;
     int num_prendas;
-
+    AVL<PrendaRopa> *Tienda;
+    int num_prendas_tienda;
     public:
     //Declaro los metodos de clase
     ClosetLavadora();
-    ClosetLavadora(int _num_prendas);
-    void setNumPrendas(int _num_prendas);
+    void setNumPrendas();
+    void setNumPrendasTienda();
     int getNumPrendas();
+    int getNumPrendasTienda();
 
-
-
-    //métodos para interactuar con las prendas
+    //Metodos para interactuar con las prendas
+    void crearPrenda(string _nombre, string _tipo, string _color, string _talla, 
+                string _material, string _estado, int _puestas, int _id);
     int limpias();
     int lavando();
     void consultarCloset();
-    void usarPrenda(string _nombre);
-    void comprarPrenda(string _nombre);
-    void desecharPrenda(string _nombre);
-    void recorreCloset();
+    void usarPrenda(int _id);
+    void comprarPrenda(int _id);
+    void desecharPrenda(int _id);
     void filtrarClosetTipo(string _tipo);
     void filtrarClosetColor(string _color);
     void filtrarClosetTalla(string _talla);
     void filtrarClosetMaterial(string _material);
     void filtrarClosetEstado(string _estado);
-    void ordenarClosetPuestas();
+    void ordenarClosetPuestasPlayeras();
+    void ordenarClosetPuestasPantalones();
+    void ordenarClosetPuestasChamarras();
+    void ordenarClosetPuestasZapatos();
+    void ordenarClosetPuestasAccesorios();
+    void ordenarClosetPuestasRopaInterior();
+    void ordenarClosetPuestasCalcetines();
+    void reasignarID();
     void creaCloset();
     void creaTienda();
 
-
 };
+
 //Metodos de clase
 /**
- * Constructor default
- * Este metodo es el constructor default de la clase
+ * Constructor
+ * Este metodo inicializa las variables de instancia
  * 
  * @param
  * @return
@@ -68,485 +80,794 @@ class ClosetLavadora {
 ClosetLavadora::ClosetLavadora(){
     creaCloset();
     creaTienda();
-    getNumPrendas();
+    setNumPrendas();
+    setNumPrendasTienda();
 }
-/**
- * Constructor con parametros
- * Este metodo es el constructor con parametros de la clase
- * 
- * @param int _num_prendas
- * @return
- * 
- */
-ClosetLavadora::ClosetLavadora(int _num_prendas){
-    num_prendas = _num_prendas;
-}
+
 /**
  * setNumPrendas
- * Este metodo asigna el numero de prendas
+ * Este metodo inicializa el numero de prendas en el closet, recorriendo el
+ * arbol con un fory contando el numero total de nodos, en este caso 
+ * del árbol del closet y asigna ese valor a la variable de instancia 
+ * num_prendas
  * 
- * @param int _num_prendas
+ * 
+ * @param
  * @return
  * 
  */
-void ClosetLavadora::setNumPrendas(int _num_prendas){
-    num_prendas = _num_prendas;
+void ClosetLavadora::setNumPrendas(){
+    string inor = Closet->inorder();
+    int num = 0;
+    for(int i = 0; i < inor.length(); i++){
+        if(inor[i] == '\n'){
+            num++;
+        }
+    }
+    num_prendas = num;
 }
+
+/**
+ * setNumPrendasTienda
+ * Este metodo inicializa el numero de prendas en la tienda, recorriendo el
+ * arbol con un fory contando el numero total de nodos, en este caso 
+ * del árbol de la tienda y asigna ese valor a la variable de instancia 
+ * num_prendas_tienda
+ * 
+ * 
+ * @param
+ * @return
+ * 
+ */
+
+void ClosetLavadora::setNumPrendasTienda(){
+    string inor = Tienda->inorder();
+    int num = 0;
+    for(int i = 0; i < inor.length(); i++){
+        if(inor[i] == '\n'){
+            num++;
+        }
+    }
+    num_prendas_tienda = num;
+}
+
 /**
  * getNumPrendas
- * Este metodo regresa el numero de prendas
+ * Este metodo regresa el numero de prendas en el closet
  * 
  * @param
  * @return int num_prendas
  * 
  */
 int ClosetLavadora::getNumPrendas(){
-    int _num_prendas = 0;
-    for (int i = 0; i < 100; i++){
-        if (closet[i] != nullptr){
-            _num_prendas++;
-        }
-    }
-    num_prendas = _num_prendas;
     return num_prendas;
 }
+
 /**
- * limpias
- * Este metodo regresa el numero de prendas limpias
+ * getNumPrendasTienda
+ * Este metodo regresa el numero de prendas en la tienda
  * 
  * @param
- * @return int limpias
+ * @return int num_prendas_tienda
+ * 
+ */
+int ClosetLavadora::getNumPrendasTienda(){
+    return num_prendas_tienda;
+}
+
+/**
+ * crearPrenda
+ * Este metodo agrega una prenda al closet, creando un objeto de la clase PrendaRopa
+ * y agregandolo al arbol del closet o de la tienda, dependiendo de si se trata de una
+ * prenda nueva o de una prenda comprada, obtiene la información de esta prenda
+ * por medio de un archivo csv
+ * 
+ * esta función será llamada desde las funciones crearCloset y crearTienda
+ * 
+ * @param string _nombre, string _tipo, string _color, string _talla, 
+ *        string _material, string _estado, int _puestas, int _id
+ * @return
+ * 
+ */
+void ClosetLavadora::crearPrenda(string _nombre, string _tipo, string _color, string _talla, 
+                string _material, string _estado, int _puestas, int _id){
+    PrendaRopa prenda(_nombre, _tipo, _color, _talla, _material, _estado, _puestas, _id);
+    if (prenda.getEstado() == "Nueva"){
+        Tienda->add(prenda);
+    } else {
+        Closet->add(prenda);
+    }
+}
+
+/**
+ * limpias
+ * Este metodo regresa el numero de prendas limpias en el closet
+ * recorre todas las prendas del arbol de closet y cuenta las que estan limpias
+ * debido a que 
+ * 
+ * 
+ * 
+ * @param
+ * @return int num_prendas
  * 
  */
 int ClosetLavadora::limpias(){
-    int limpias = 0;
-    for (int i = 0; i < 100; i++){
-        if (closet[i] != nullptr){
-            if (closet[i]->getEstado() == "Limpia"){
-                limpias++;
-            }
-        }
-    }
-    return limpias;
-}
-/**
- * lavando
- * Este metodo regresa el numero de prendas lavando
- * 
- * @param
- * @return int lavando
- * 
- */
-int ClosetLavadora::lavando(){
-    int lavando = 0;
-    for (int i = 0; i < 100; i++){
-        if (closet[i] != nullptr){
-            if (closet[i]->getEstado() == "Lavando"){
-                lavando++;
-            }
-        }
-    }
-    return lavando;
-}
-/**
- * consultarCloset
- * Este metodo imprime los datos de las prendas
- * 
- * @param
- * @return
- * 
- */
-void ClosetLavadora::consultarCloset(){
-    cout << "Prendas Totales en el closet: " << getNumPrendas() <<  endl;
-    cout << "Prendas limpias: " << limpias() << endl;
-    cout << "Prendas lavándose: " << lavando() << endl;
-    string o;
-    cout << "¿Desea ver las prendas? (si/no)" << endl;
-    cin >> o;
-    if (o == "si"){
-        for (int i = 0; i < 100; i++){
-            if (closet[i] != nullptr){
-                cout << "Prenda " << i + 1 << endl;
-                closet[i]->mostrarDatos();
-                
-            }
-        }
-    }else{
-        cout << "Ok" << endl;
-    }
-}
-/**
- * usarPrenda
- * Este metodo cambia el estado de la prenda a lavando
- * 
- * @param string _nombre
- * @return
- * 
-*/
-void ClosetLavadora::usarPrenda(string _nombre){
-    for (int i = 0; i < 100; i++){
-        if (closet[i] != nullptr){
-            if (closet[i]->getNombre() == _nombre){
-                closet[i]->setEstado("Lavando");
-                closet[i]->setPuestas(closet[i]->getPuestas() + 1);
-                cout << "Prenda en proceso de lavado" << endl;
-            }
-        }
-    }
-}
-/**
- * comprarPrenda
- * Este metodo agrega una prenda al closet
- * 
- * @param string _nombre
- * @return
- * 
-*/
-void ClosetLavadora::comprarPrenda(string _nombre){
-    for (int i = 0; i < 50; i++){
-        if (tienda[i] != nullptr){
-            if (tienda[i]->getNombre() == _nombre){
-                for (int j = 0; j < 100; j++){
-                    if (closet[j] == nullptr){
-                        closet[j] = tienda[i];
-                        tienda[i] = nullptr;
-                        cout << "Prenda comprada" << endl;
-                        return;
+    string inor = Closet->inorder();
+    int num = 0;
+    for(int i = 0; i < inor.length(); i++){
+        if(inor[i] == 'L'){
+            if (inor[i+1] == 'i'){
+                if (inor[i+2] == 'm'){
+                    if (inor[i+3] == 'p'){
+                        if (inor[i+4] == 'i'){
+                            if (inor[i+5] == 'a'){
+                                num++;
+                        }
                     }
                 }
             }
         }
     }
 }
-/**
- * desecharPrenda
- * Este metodo elimina una prenda del closet
- * 
- * @param string _nombre
- * @return
- * 
-*/
-void ClosetLavadora::desecharPrenda(string _nombre){
-    for (int i = 0; i < 100; i++){
-        if (closet[i] != nullptr){
-            if (closet[i]->getNombre() == _nombre){
-                closet[i] = nullptr;
-                cout << "Prenda desechada" << endl;
-            }
-        }
-    }
+return num;
 }
+
 /**
- * recorreCloset
- * Este metodo recorre el closet para llenar los espacios vacios
- * por nullptr, por los que estan llenos, recorriendo todos a la derecha
+ * lavando
+ * Este metodo regresa el numero de prendas en el closet que estan lavandose
+ * recorre todas las prendas del arbol de closet y cuenta las que estan lavandose
+ * con un for que busca en el arbol con la funcion search de la clase AVL
+ * y después cambia el estado de las prendas que estan lavandose a "Limpias"
+ * 
+ * 
  * 
  * @param
- * @return
+ * @return int num_prendas
  * 
-*/
-void ClosetLavadora::recorreCloset(){
-    for (int i = 0; i < 100; i++){
-        if (closet[i] == nullptr){
-            for (int j = i; j < 100; j++){
-                if (closet[j] != nullptr){
-                    closet[i] = closet[j];
-                    closet[j] = nullptr;
-                    break;
+ */
+int ClosetLavadora::lavando(){
+    string inor = Closet->inorder();
+    int num = 0;
+    for(int i = 0; i < inor.length(); i++){
+        if(inor[i] == 'L'){
+            if (inor[i+1] == 'a'){
+                if (inor[i+2] == 'v'){
+                    if (inor[i+3] == 'a'){
+                        if (inor[i+4] == 'n'){
+                            if (inor[i+5] == 'd'){
+                                if (inor[i+6] == 'o'){
+                                    num++;
+                                    PrendaRopa prenda = Closet->search(i+10);
+                                    prenda.setEstado("Limpia");
+                        }
+                    }
                 }
             }
         }
     }
 }
+}
+return num;
+}
+
+
+
+
+/**
+ * consultarCloset
+ * Este metodo imprime el arbol del closet y los datos de cada prenda
+ * separados por un salto de linea
+ * 
+ * 
+ * 
+ * @param
+ * @return
+ * 
+ */
+void ClosetLavadora::consultarCloset(){
+    cout << "Prendas en el closet: " << getNumPrendas() << endl;
+    cout << "Prendas limpias: " << limpias() << endl;
+    cout << "Prendas lavandose: " << lavando() << endl;
+    string o;
+    cout << "¿Desea ver las prendas? (si/no)" << endl;
+    cin >> o;
+    if (o == "si"){
+        cout << Closet->mostrarDatoss() << endl;
+    }
+
+}
+
+/**
+ * usarPrenda
+ * Este metodo cambia el estado de una prenda de "limpia" a "usada"
+ * recorre todas las prendas del arbol de closet y cambia el estado de la prenda
+ * que se le indique, usando ek método search de la clase AVL
+ * 
+ * 
+ * 
+ * @param int _ID
+ * @return
+ * 
+ */
+void ClosetLavadora::usarPrenda(int _id){
+        PrendaRopa prenda = Closet->search(_id);
+        if (prenda.getID() == _id){
+            if (prenda.getEstado()== "Limpia"){
+                prenda.setPuestas(prenda.getPuestas() + 1);
+                if (prenda.getTipo() == "Playera" ){
+                    if (prenda.getPuestas() >= 1){
+                        prenda.setEstado("Lavando");
+                    }
+                } else if (prenda.getTipo() == "Pantalon" ){
+                    if (prenda.getPuestas() >= 4){
+                        prenda.setEstado("Lavando");
+                    }
+                } else if (prenda.getTipo() == "Chamarra" ){
+                    if (prenda.getPuestas() >= 5){
+                        prenda.setEstado("Lavando");
+                    }
+                } else if (prenda.getTipo() == "Zapatos" ){
+                    if (prenda.getPuestas() >= 15){
+                        prenda.setEstado("Lavando");
+                    }
+                } else if (prenda.getTipo() == "Accesorio" ){
+                    if (prenda.getPuestas() >= 20){
+                        prenda.setEstado("Lavando");
+                    }
+                } else if (prenda.getTipo() == "Ropa interior" ){
+                    if (prenda.getPuestas() >= 1){
+                        prenda.setEstado("Lavando");
+                    }
+                } else if (prenda.getTipo() == "Calcetines" ){
+                    if (prenda.getPuestas() >= 1){
+                        prenda.setEstado("Lavando");
+                    }
+                }     
+        } else {
+            cout << "No se encontró la prenda" << endl;
+        }
+    }
+}
+
+/**
+ * comprarPrenda
+ * Este método le permite al usuario comprar una prenda del arbol de tienda
+ * y agregarla al arbol de closet, el método además verifica que la prenda
+ * que se desea comprar esté en la tienda y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * 
+ * @param int _id
+ * @return
+*/
+void ClosetLavadora::comprarPrenda(int _id){
+    cout << "Mostrando prendas disponibles" << endl;
+    cout << Tienda->mostrarDatoss() << endl;
+    string o;
+    cout << "¿Desea filtrar? (si/no)" << endl;
+    cin >> o;
+    if (o == "si"){
+        string o2;
+        cout << "¿Por qué atributo desea filtrar? (tipo/color/talla/material/estado)" << endl;
+        cin >> o2;
+        if (o2 == "tipo"){
+            string tipo;
+            cout << "¿Qué tipo de prenda desea?" << endl;
+            cin >> tipo;
+            filtrarClosetTipo(tipo);
+        } else if (o2 == "color"){
+            string color;
+            cout << "¿Qué color de prenda desea?" << endl;
+            cin >> color;
+            filtrarClosetColor(color);
+        } else if (o2 == "talla"){
+            string talla;
+            cout << "¿Qué talla de prenda desea?" << endl;
+            cin >> talla;
+            filtrarClosetTalla(talla);
+        } else if (o2 == "material"){
+            string material;
+            cout << "¿Qué material de prenda desea?" << endl;
+            cin >> material;
+            filtrarClosetMaterial(material);
+        } else if (o2 == "estado"){
+            string estado;
+            cout << "¿Qué estado de prenda desea?" << endl;
+            cin >> estado;
+            filtrarClosetEstado(estado);
+        }
+    }
+
+    PrendaRopa prenda = Tienda->search(_id);
+    if (prenda.getID() == _id){
+        Closet->add(prenda);
+        prenda.setEstado("Limpia");
+        Tienda->remove(prenda);
+        Tienda->balance_tree();
+        Closet->balance_tree();
+        setNumPrendas();
+        setNumPrendasTienda();
+        reasignarID();
+    } else {
+        cout << "No se encontró la prenda en la tienda" << endl;
+    }
+}
+
+/**
+ * desecharPrenda
+ * Este método le permite al usuario desechar una prenda del arbol de closet
+ * y eliminarla del arbol, el método además verifica que la prenda
+ * que se desea desechar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * 
+ * @param int _id
+ * @return
+*/
+
+void ClosetLavadora::desecharPrenda(int _id){
+    PrendaRopa prenda = Closet->search(_id);
+    if (prenda.getID() == _id){
+        Closet->remove(prenda);
+        Closet->balance_tree();
+        setNumPrendas();
+        reasignarID();
+    } else {
+        cout << "No se encontró la prenda en el closet" << endl;
+    }
+}
+
 /**
  * filtrarClosetTipo
- * Este metodo filtra el closet por tipo de prenda
+ * Este método le permite al usuario filtrar las prendas del closet por tipo
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea filtrar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de filtrar Tipo de la clase AVL
  * 
  * @param string _tipo
  * @return
- * 
 */
+
 void ClosetLavadora::filtrarClosetTipo(string _tipo){
-    for (int i = 0; i < 100; i++){
-        if (closet[i] != nullptr){
-            if (closet[i]->getTipo() == _tipo){
-                closet[i]->mostrarDatos();
-            }
-        }
-    }
+    Closet->filtrarTipo(_tipo);
 }
+
 /**
  * filtrarClosetColor
- * Este metodo filtra el closet por color de prenda
+ * Este método le permite al usuario filtrar las prendas del closet por color
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea filtrar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de filtrar Color de la clase AVL
  * 
  * @param string _color
  * @return
- * 
 */
+
 void ClosetLavadora::filtrarClosetColor(string _color){
-    for (int i = 0; i < 100; i++){
-        if (closet[i] != nullptr){
-            if (closet[i]->getColor() == _color){
-                closet[i]->mostrarDatos();
-            }
-        }
-    }
+    Closet->filtrarColor(_color);
 }
+
 /**
  * filtrarClosetTalla
- * Este metodo filtra el closet por talla de prenda
+ * Este método le permite al usuario filtrar las prendas del closet por talla
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea filtrar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de filtrar Talla de la clase AVL
  * 
  * @param string _talla
  * @return
- * 
 */
+
 void ClosetLavadora::filtrarClosetTalla(string _talla){
-    for (int i = 0; i < 100; i++){
-        if (closet[i] != nullptr){
-            if (closet[i]->getTalla() == _talla){
-                closet[i]->mostrarDatos();
-            }
-        }
-    }
+    Closet->filtrarTalla(_talla);
 }
+
 /**
  * filtrarClosetMaterial
- * Este metodo filtra el closet por material de prenda
+ * Este método le permite al usuario filtrar las prendas del closet por material
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea filtrar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de filtrar Material de la clase AVL
  * 
  * @param string _material
  * @return
- * 
 */
+
 void ClosetLavadora::filtrarClosetMaterial(string _material){
-    for (int i = 0; i < 100; i++){
-        if (closet[i] != nullptr){
-            if (closet[i]->getMaterial() == _material){
-                closet[i]->mostrarDatos();
-            }
-        }
-    }
+    Closet->filtrarMaterial(_material);
 }
+
 /**
  * filtrarClosetEstado
- * Este metodo filtra el closet por estado de prenda
+ * Este método le permite al usuario filtrar las prendas del closet por estado
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea filtrar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de filtrar Estado de la clase AVL
  * 
  * @param string _estado
  * @return
- * 
 */
+
 void ClosetLavadora::filtrarClosetEstado(string _estado){
-    for (int i = 0; i < 100; i++){
-        if (closet[i] != nullptr){
-            if (closet[i]->getEstado() == _estado){
-                closet[i]->mostrarDatos();
-            }
+    Closet->filtrarEstado(_estado);
+}
+
+/**
+ * ordenarClosetPuestasPlayeras
+ * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea ordenar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de ordenar Puestas de la clase AVL
+ * 
+ * @param
+ * @return
+*/
+
+void ClosetLavadora::ordenarClosetPuestasPlayeras(){
+    Closet->ordenarPuestas(0, "Playera");
+}
+
+/**
+ * ordenarClosetPuestasPantalones
+ * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea ordenar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de ordenar Puestas de la clase AVL
+ * 
+ * @param
+ * @return
+*/
+
+void ClosetLavadora::ordenarClosetPuestasPantalones(){
+    Closet->ordenarPuestas(0, "Pantalon");
+    Closet->ordenarPuestas(1, "Pantalon");
+    Closet->ordenarPuestas(2, "Pantalon");
+    Closet->ordenarPuestas(3, "Pantalon");
+}
+
+/**
+ * ordenarClosetPuestasChamarras
+ * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea ordenar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de ordenar Puestas de la clase AVL
+ * 
+ * @param
+ * @return
+*/
+
+void ClosetLavadora::ordenarClosetPuestasChamarras(){
+    Closet->ordenarPuestas(0, "Chamarra");
+    Closet->ordenarPuestas(1, "Chamarra");
+    Closet->ordenarPuestas(2, "Chamarra");
+    Closet->ordenarPuestas(3, "Chamarra");
+    Closet->ordenarPuestas(4, "Chamarra");
+}
+
+/**
+ * ordenarClosetPuestasZapatos
+ * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea ordenar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de ordenar Puestas de la clase AVL
+ * 
+ * @param
+ * @return
+*/
+
+void ClosetLavadora::ordenarClosetPuestasZapatos(){
+    Closet->ordenarPuestas(0, "Zapatos");
+    Closet->ordenarPuestas(1, "Zapatos");
+    Closet->ordenarPuestas(2, "Zapatos");
+    Closet->ordenarPuestas(3, "Zapatos");
+    Closet->ordenarPuestas(4, "Zapatos");
+    Closet->ordenarPuestas(5, "Zapatos");
+    Closet->ordenarPuestas(6, "Zapatos");
+    Closet->ordenarPuestas(7, "Zapatos");
+    Closet->ordenarPuestas(8, "Zapatos");
+    Closet->ordenarPuestas(9, "Zapatos");
+    Closet->ordenarPuestas(10, "Zapatos");
+    Closet->ordenarPuestas(11, "Zapatos");
+    Closet->ordenarPuestas(12, "Zapatos");
+    Closet->ordenarPuestas(13, "Zapatos");
+    Closet->ordenarPuestas(14, "Zapatos");
+}
+
+/**
+ * ordenarClosetPuestasAccesorios
+ * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea ordenar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de ordenar Puestas de la clase AVL
+ * 
+ * @param
+ * @return
+*/
+
+void ClosetLavadora::ordenarClosetPuestasAccesorios(){
+    Closet->ordenarPuestas(0, "Accesorio");
+    Closet->ordenarPuestas(1, "Accesorio");
+    Closet->ordenarPuestas(2, "Accesorio");
+    Closet->ordenarPuestas(3, "Accesorio");
+    Closet->ordenarPuestas(4, "Accesorio");
+    Closet->ordenarPuestas(5, "Accesorio");
+    Closet->ordenarPuestas(6, "Accesorio");
+    Closet->ordenarPuestas(7, "Accesorio");
+    Closet->ordenarPuestas(8, "Accesorio");
+    Closet->ordenarPuestas(9, "Accesorio");
+    Closet->ordenarPuestas(10, "Accesorio");
+    Closet->ordenarPuestas(11, "Accesorio");
+    Closet->ordenarPuestas(12, "Accesorio");
+    Closet->ordenarPuestas(13, "Accesorio");
+    Closet->ordenarPuestas(14, "Accesorio");
+    Closet->ordenarPuestas(15, "Accesorio");
+    Closet->ordenarPuestas(16, "Accesorio");
+    Closet->ordenarPuestas(17, "Accesorio");
+    Closet->ordenarPuestas(18, "Accesorio");
+    Closet->ordenarPuestas(19, "Accesorio");
+}
+
+/**
+ * ordenarClosetPuestasRopaInterior
+ * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea ordenar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de ordenar Puestas de la clase AVL
+ * 
+ * @param
+ * @return
+*/
+
+void ClosetLavadora::ordenarClosetPuestasRopaInterior(){
+    Closet->ordenarPuestas(0, "Ropa interior");
+}
+
+/**
+ * ordenarClosetPuestasCalcetines
+ * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
+ * y mostrarlas en pantalla, el método además verifica que la prenda
+ * que se desea ordenar esté en el closet y acomoda nuevamente el arbol AVL
+ * con los métodos del archivo AVL.h
+ * usa el metodo de ordenar Puestas de la clase AVL
+ * 
+ * @param
+ * @return
+*/
+
+void ClosetLavadora::ordenarClosetPuestasCalcetines(){
+    Closet->ordenarPuestas(0, "Calcetines");
+}
+
+/**
+ * reasignarID
+ * Este método reasigna los ID de las prendas en el closet, para que no haya
+ * huecos en los ID, recorre todas las prendas del arbol de closet y cambia el ID de la prenda
+ * que se le indique, usando ek método search de la clase AVL
+ * hace uso de la función balance_tree de la clase AVL, y check_tree
+ * 
+ * 
+ * 
+ * @param 
+ * @return
+ * 
+ */
+void ClosetLavadora::reasignarID(){
+    string inor = Closet->inorder();
+    int num = 0;
+    for(int i = 0; i < inor.length(); i++){
+        if(inor[i] == '\n'){
+            num++;
         }
     }
+    int id = 0;
+    for (int i = 0; i < num; i++){
+        PrendaRopa prenda = Closet->search(i);
+        if (prenda.getID() == i){
+            prenda.setID(id);
+            id++;
+        } else {
+
+        }
+    }
+    Closet->balance_tree();
 }
-/**
- * ordenarClosetPuestas
- * Este metodo ordena el closet por numero de puestas de prenda
- * de mayor a menor,usando sort de la biblioteca de algorithm
- * @param
- * @return
- * 
-*/
-void ClosetLavadora::ordenarClosetPuestas(){
-    sort(closet, closet + 100, [](PrendaRopa *a, PrendaRopa *b){
-        return a->getPuestas() > b->getPuestas();
-    });
-}
+
 /**
  * creaCloset
- * Este metodo crea el closet con 10 prendas por default
- * con ayuda del constructor de PrendaRopa
+ * Este método crea el arbol del closet, leyendo un archivo csv
+ * importado como un arreglo de strings, y separando los datos de cada prenda
+ * en variables de tipo string, para después convertir los datos que lo requieran
+ * a su tipo de dato correspondiente, y crear un objeto de la clase PrendaRopa
+ * con estos datos con el metodo creaPrenda, y agregarlo al arbol del closet
  * 
- * @param
+ * 
+ * 
+ * @param 
  * @return
  * 
-*/
+ */
+
 void ClosetLavadora::creaCloset(){
-    closet[0] = new PrendaRopa("Pantaloncito","Pantalon", "Azul", "M", 
-                                "Algodon", "Limpia", 0);
-    closet[1] = new PrendaRopa("Playera 1","Playera", "Blanco", "M",
-                                "Algodon", "Limpia", 0);
-    closet[2] = new PrendaRopa("Playera 2","Playera", "Negro", "M",
-                                "Algodon", "Limpia", 0);
-    closet[3] = new PrendaRopa("Playera 3","Playera", "Rosa", "M",
-                                "Algodon", "Limpia", 0);
-    closet[4] = new PrendaRopa("Playera 4","Playera", "Rojo", "M",
-                                "Algodon", "Limpia", 0);        
-    closet[5] = new PrendaRopa("Playera 5","Playera", "Verde", "M",
-                                "Algodon", "Limpia", 0);    
-    closet[6] = new PrendaRopa("Sneakers","Zapatos", "Blanco", "L",
-                                "Tela", "Limpia", 0);
-    closet[7] = new PrendaRopa("Zapatos de vestir","Zapatos", "Negro", "L",
-                                "Piel", "Limpia", 0);
-    closet[8] = new PrendaRopa("Cinturón","Accesorio", "Negro", "M",
-                                "Piel", "Limpia", 0);
-    closet[9] = nullptr;
-    closet[10] = nullptr;
-    closet[11] = nullptr;
-    closet[12] = nullptr;
-    closet[13] = nullptr;
-    closet[14] = nullptr;
-    closet[15] = nullptr;
-    closet[16] = nullptr;
-    closet[17] = nullptr;
-    closet[18] = nullptr;
-    closet[19] = nullptr;
-    closet[20] = nullptr;
-    closet[21] = nullptr;
-    closet[22] = nullptr;
-    closet[23] = nullptr;
-    closet[24] = nullptr;
-    closet[25] = nullptr;
-    closet[26] = nullptr;
-    closet[27] = nullptr;
-    closet[28] = nullptr;
-    closet[29] = nullptr;
-    closet[30] = nullptr;
-    closet[31] = nullptr;
-    closet[32] = nullptr;
-    closet[33] = nullptr;
-    closet[34] = nullptr;
-    closet[35] = nullptr;
-    closet[36] = nullptr;
-    closet[37] = nullptr;
-    closet[38] = nullptr;
-    closet[39] = nullptr;
-    closet[40] = nullptr;
-    closet[41] = nullptr;
-    closet[42] = nullptr;
-    closet[43] = nullptr;
-    closet[44] = nullptr;
-    closet[45] = nullptr;
-    closet[46] = nullptr;
-    closet[47] = nullptr;
-    closet[48] = nullptr;
-    closet[49] = nullptr;
-    closet[50] = nullptr;
-    closet[51] = nullptr;
-    closet[52] = nullptr;
-    closet[53] = nullptr;
-    closet[54] = nullptr;
-    closet[55] = nullptr;
-    closet[56] = nullptr;
-    closet[57] = nullptr;
-    closet[58] = nullptr;
-    closet[59] = nullptr;
-    closet[60] = nullptr;
-    closet[61] = nullptr;
-    closet[62] = nullptr;
-    closet[63] = nullptr;
-    closet[64] = nullptr;
-    closet[65] = nullptr;
-    closet[66] = nullptr;
-    closet[67] = nullptr;
-    closet[68] = nullptr;
-    closet[69] = nullptr;
-    closet[70] = nullptr;
-    closet[71] = nullptr;
-    closet[72] = nullptr;
-    closet[73] = nullptr;
-    closet[74] = nullptr;
-    closet[75] = nullptr;
-    closet[76] = nullptr;
-    closet[77] = nullptr;
-    closet[78] = nullptr;
-    closet[79] = nullptr;
-    closet[80] = nullptr;
-    closet[81] = nullptr;
-    closet[82] = nullptr;
-    closet[83] = nullptr;
-    closet[84] = nullptr;
-    closet[85] = nullptr;
-    closet[86] = nullptr;
-    closet[87] = nullptr;
-    closet[88] = nullptr;
-    closet[89] = nullptr;
-    closet[90] = nullptr;
-    closet[91] = nullptr;
-    closet[92] = nullptr;
-    closet[93] = nullptr;
-    closet[94] = nullptr;
-    closet[95] = nullptr;
-    closet[96] = nullptr;
-    closet[97] = nullptr;
-    closet[98] = nullptr;
-    closet[99] = nullptr;
-
-
+    using namespace std;
+    string prendas[100];
+    ifstream archivoCSV("Closet.csv");
+    string texto;
+    int num = 0;
+    if(archivoCSV.fail()){
+        cout << "No se pudo abrir el archivo";
+        exit(1);
+    }
+    while(getline(archivoCSV, texto)){
+        prendas[num] = texto;
+        num++;
+    }
+    archivoCSV.close();
+    for (int i = 0; i < num; i++){
+        string nombre;
+        string tipo;
+        string color;
+        string talla;
+        string material;
+        string estado;
+        int puestas;
+        int id;
+        string aux;
+        int cont = 0;
+        for (int j = 0; j < prendas[i].length(); j++){
+            if (prendas[i][j] == ','){
+                if (cont == 0){
+                    nombre = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 1){
+                    tipo = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 2){
+                    color = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 3){
+                    talla = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 4){
+                    material = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 5){
+                    estado = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 6){
+                    puestas = stoi(aux);
+                    aux = "";
+                    cont++;
+                }
+            } else {
+                aux = aux + prendas[i][j];
+            }
+        }
+        id = stoi(aux);
+        crearPrenda(nombre, tipo, color, talla, material, estado, puestas, id);
+    }
 }
 
 /**
- * /**
  * creaTienda
- * Este metodo crea la tienda con 50 prendas por default
- * con ayuda del constructor de PrendaRopa
+ * Este método crea el arbol de la tienda, leyendo un archivo csv
+ * importado como un arreglo de strings, y separando los datos de cada prenda
+ * en variables de tipo string, para después convertir los datos que lo requieran
+ * a su tipo de dato correspondiente, y crear un objeto de la clase PrendaRopa
+ * con estos datos con el metodo creaPrenda, y agregarlo al arbol de la tienda
  * 
- * @param
+ * 
+ * 
+ * @param 
  * @return
  * 
-*/
-void ClosetLavadora::creaTienda(){
-    tienda[0] = new PrendaRopa("Pantaloncito","Pantalon", "Azul", "M", "Algodon", "Limpia", 0);
-    tienda[1] = new PrendaRopa("Camiseta1","Camiseta", "Rojo", "S", "Algodon", "Limpia", 10);
-    tienda[2] = new PrendaRopa("Vestido1","Vestido", "Blanco", "L", "Seda", "Limpia", 20);
-    tienda[3] = new PrendaRopa("Short1","Short", "Negro", "M", "Denim", "Limpia", 15);
-    tienda[4] = new PrendaRopa("Chaqueta1","Chaqueta", "Gris", "XL", "Lana", "Limpia", 30);
-    tienda[5] = new PrendaRopa("Sudadera1","Sudadera", "Verde", "S", "Poliester", "Limpia", 25);
-    tienda[6] = new PrendaRopa("Pantaloncito2","Pantalon", "Azul", "M", "Algodon", "Limpia", 10);
-    tienda[7] = new PrendaRopa("Camiseta2","Camiseta", "Rojo", "S", "Algodon", "Limpia", 15);
-    tienda[8] = new PrendaRopa("Vestido2","Vestido", "Blanco", "L", "Seda", "Limpia", 25);
-    tienda[9] = new PrendaRopa("Short2","Short", "Negro", "M", "Denim", "Limpia", 20);
-    tienda[10] = new PrendaRopa("Chaqueta2","Chaqueta", "Gris", "XL", "Lana", "Limpia", 35);
-    tienda[11] = new PrendaRopa("Sudadera2","Sudadera", "Verde", "S", "Poliester", "Limpia", 30);
-    tienda[12] = new PrendaRopa("Pantaloncito3","Pantalon", "Azul", "M", "Algodon", "Limpia", 5);
-    tienda[13] = new PrendaRopa("Camiseta3","Camiseta", "Negro", "S", "Algodon", "Limpia", 18);
-    tienda[14] = new PrendaRopa("Vestido3","Vestido", "Rojo", "L", "Seda", "Limpia", 22);
-    tienda[15] = new PrendaRopa("Short3","Short", "Gris", "M", "Denim", "Limpia", 17);
-    tienda[16] = new PrendaRopa("Chaqueta3","Chaqueta", "Azul", "XL", "Lana", "Limpia", 28);
-    tienda[17] = new PrendaRopa("Sudadera3","Sudadera", "Blanco", "S", "Poliester", "Limpia", 32);
-    tienda[18] = new PrendaRopa("Pantaloncito4","Pantalon", "Verde", "M", "Algodon", "Limpia", 12);
-    tienda[19] = new PrendaRopa("Camiseta4","Camiseta", "Negro", "S", "Algodon", "Limpia", 14);
-    tienda[20] = new PrendaRopa("Vestido4","Vestido", "Rojo", "L", "Seda", "Limpia", 24);
-    tienda[21] = new PrendaRopa("Short4","Short", "Gris", "M", "Denim", "Limpia", 19);
-    tienda[22] = new PrendaRopa("Chaqueta4","Chaqueta", "Azul", "XL", "Lana", "Limpia", 31);
-    tienda[23] = new PrendaRopa("Sudadera4","Sudadera", "Blanco", "S", "Poliester", "Limpia", 29);
-    tienda[24] = new PrendaRopa("Pantaloncito5","Pantalon", "Azul", "M", "Algodon", "Limpia", 9);
-    tienda[25] = new PrendaRopa("Camiseta5","Camiseta", "Negro", "S", "Algodon", "Limpia", 12);
-    tienda[26] = new PrendaRopa("Vestido5","Vestido", "Rojo", "L", "Seda", "Limpia", 28);
-    tienda[27] = new PrendaRopa("Short5","Short", "Gris", "M", "Denim", "Limpia", 23);
-    tienda[28] = new PrendaRopa("Chaqueta5","Chaqueta", "Azul", "XL", "Lana", "Limpia", 37);
-    tienda[29] = new PrendaRopa("Sudadera5","Sudadera", "Blanco", "S", "Poliester", "Limpia", 33);
-    tienda[30] = new PrendaRopa("Pantaloncito6","Pantalon", "Verde", "M", "Algodon", "Limpia", 7);
-    tienda[31] = new PrendaRopa("Camiseta6","Camiseta", "Negro", "S", "Algodon", "Limpia", 16);
-    tienda[32] = new PrendaRopa("Vestido6","Vestido", "Rojo", "L", "Seda", "Limpia", 27);
-    tienda[33] = new PrendaRopa("Short6","Short", "Gris", "M", "Denim", "Limpia", 21);
-    tienda[34] = new PrendaRopa("Chaqueta6","Chaqueta", "Azul", "XL", "Lana", "Limpia", 36);
-    tienda[35] = new PrendaRopa("Sudadera6","Sudadera", "Blanco", "S", "Poliester", "Limpia", 31);
-    tienda[36] = new PrendaRopa("Pantaloncito7","Pantalon", "Azul", "M", "Algodon", "Limpia", 8);
-    tienda[37] = new PrendaRopa("Camiseta7","Camiseta", "Negro", "S", "Algodon", "Limpia", 11);
-    tienda[38] = new PrendaRopa("Vestido7","Vestido", "Rojo", "L", "Seda", "Limpia", 23);
-    tienda[39] = new PrendaRopa("Short7","Short", "Gris", "M", "Denim", "Limpia", 18);
-    tienda[40] = new PrendaRopa("Chaqueta7","Chaqueta", "Azul", "XL", "Lana", "Limpia", 34);
-    tienda[41] = new PrendaRopa("Sudadera7","Sudadera", "Blanco", "S", "Poliester", "Limpia", 27);
-    tienda[42] = new PrendaRopa("Pantaloncito8","Pantalon", "Verde", "M", "Algodon", "Limpia", 6);
-    tienda[43] = new PrendaRopa("Camiseta8","Camiseta", "Negro", "S", "Algodon", "Limpia", 13);
-    tienda[44] = new PrendaRopa("Vestido8","Vestido", "Rojo", "L", "Seda", "Limpia", 26);
-    tienda[45] = new PrendaRopa("Short8","Short", "Gris", "M", "Denim", "Limpia", 22);
-    tienda[46] = new PrendaRopa("Chaqueta8","Chaqueta", "Azul", "XL", "Lana", "Limpia", 39);
-    tienda[47] = new PrendaRopa("Sudadera8","Sudadera", "Blanco", "S", "Poliester", "Limpia", 35);
-    tienda[48] = new PrendaRopa("Pantaloncito9","Pantalon", "Azul", "M", "Algodon", "Limpia", 4);
-    tienda[49] = new PrendaRopa("Camiseta9","Camiseta", "Negro", "S", "Algodon", "Limpia", 9);
+ */
 
+void ClosetLavadora::creaTienda(){
+    using namespace std;
+    string prendas[100];
+    ifstream archivoCSV("Tienda.csv");
+    string texto;
+    int num = 0;
+    if(archivoCSV.fail()){
+        cout << "No se pudo abrir el archivo";
+        exit(1);
+    }
+    while(getline(archivoCSV, texto)){
+        prendas[num] = texto;
+        num++;
+    }
+    archivoCSV.close();
+    for (int i = 0; i < num; i++){
+        string nombre;
+        string tipo;
+        string color;
+        string talla;
+        string material;
+        string estado;
+        int puestas;
+        int id;
+        string aux;
+        int cont = 0;
+        for (int j = 0; j < prendas[i].length(); j++){
+            if (prendas[i][j] == ','){
+                if (cont == 0){
+                    nombre = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 1){
+                    tipo = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 2){
+                    color = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 3){
+                    talla = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 4){
+                    material = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 5){
+                    estado = aux;
+                    aux = "";
+                    cont++;
+                } else if (cont == 6){
+                    puestas = stoi(aux);
+                    aux = "";
+                    cont++;
+                }
+            } else {
+                aux = aux + prendas[i][j];
+            }
+        }
+        id = stoi(aux);
+        crearPrenda(nombre, tipo, color, talla, material, estado, puestas, id);
+    }
 }
 
 
 
 
+        
+
+
+                           
+
+        
+        
 
 
 
-#endif
+
+
+
+
+#endif /* CLOSETLAVADORA_H */
+
+
+
+
+
+
+
+
+
+
