@@ -251,14 +251,11 @@ void ClosetLavadora::crearPrenda(string _nombre, string _tipo, string _color, st
 
 int ClosetLavadora::limpias(){
     int i= num_prendas;
-    cout << "i es " << i << endl;
     int num = 0;
     for (int j = 1; j <= i; j++){
         Nodo* nodo = Closet->search(j);
-        cout << "busco " << j << endl;
         if (nodo != nullptr ){
             if ( nodo->value.getEstado() == "Limpia"){
-                cout << "encontre " << j << endl;
                 num++;
             }
         }

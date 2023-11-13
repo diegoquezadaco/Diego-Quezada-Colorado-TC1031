@@ -200,13 +200,10 @@ int main(){
             cin >> id;
             closet1.usarPrenda(id);
         } else if (opcion == 5){
-            //imprimimos la tienda
-            // desplegamos la Tienda con ayuda de la función mostrarDatos de la clase Arbol
-            cout << closet1.getTienda()->search(1)->getValue().mostrarDatos() << endl;
             cout << "Bienvenido a la tienda" << endl;
             cout << "Estos son los productos que tenemos disponibles" << endl;
             cout << "--------------------------------------------------------------"<< endl;
-            cout << "ID" << " | " << "Tipo" << " | " << "Color" << " | " << "Talla" << " | " << "Material" << " | " << "Estado" << " | " << "Puestas" << " | " << "Precio" << endl;
+            cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
             cout << closet1.getTienda()->mostrarDatos()<< endl;
             cout << "--------------------------------------------------------------"<< endl;
         } else if (opcion == 6){

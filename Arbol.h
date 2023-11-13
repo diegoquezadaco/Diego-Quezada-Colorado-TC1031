@@ -122,7 +122,6 @@ void Nodo::remove(PrendaRopa val) {
         }
         
     } else if (val > value ) {
-        cout << "entro al else nodo" << endl;
         if (right != nullptr){
             if (right->value == val) {
                 old = right;
@@ -131,7 +130,6 @@ void Nodo::remove(PrendaRopa val) {
                 cout << succ->value.mostrarDatos() << endl;
 
                 if (succ != nullptr) {
-                    cout << "entro al conecte" << endl;
                     // Conectar los nodos hijos del sucesor con el nodo actual
                     succ->left = old->left;
                     succ->right = old->right;
@@ -458,7 +456,6 @@ void Arbol::remove(PrendaRopa val) {
             delete root;
             root = succ;
         } else {
-            cout << "entro al else" << endl;
             root->remove(val);
         }
         reasignarID();
