@@ -126,8 +126,6 @@ void Nodo::remove(PrendaRopa val) {
             if (right->value == val) {
                 old = right;
                 succ = right->succesor();
-                //imprimimos el sucesor
-                cout << succ->value.mostrarDatos() << endl;
 
                 if (succ != nullptr) {
                     // Conectar los nodos hijos del sucesor con el nodo actual
