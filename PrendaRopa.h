@@ -15,8 +15,9 @@
 #define   PRENDAROPA_H
 #include <iostream>
 #include <string>
-#include "AVL.h"
 using namespace std;
+#include <vector>
+#include <fstream>
 
 //Clase PrendaRopa
 class PrendaRopa {
@@ -47,14 +48,32 @@ class PrendaRopa {
     void setNombre(string _nombre);
     void setPuestas(int _puestas);
     void setEstado(string _estado);
-    void mostrarDatos();
+    string mostrarDatos();
     PrendaRopa(string _nombre, string _tipo, string _color, string _talla, 
                 string _material, string _estado, int _puestas, int _id);
     //creamos un constructor que reciba como prámetro un Node que apunte a una variable de tipo PrendaRopa
-    PrendaRopa(Node<PrendaRopa> *nodo);
-    
-    template <class T>
+    PrendaRopa(int id) : id(id) {}
+    PrendaRopa() {}
+    bool operator==(const PrendaRopa& p) {
+        return id == p.id;
+    }
+    bool operator!=(const PrendaRopa& p) {
+        return id != p.id;
+    }
+    bool operator<(const PrendaRopa& p) {
+        return id < p.id;
+    }
+    bool operator>(const PrendaRopa& p) {
+        return id > p.id;
+    }
+    bool operator<=(const PrendaRopa& p) {
+        return id <= p.id;
+    }
+    bool operator>=(const PrendaRopa& p) {
+        return id >= p.id;
+    }
     friend class Node;
+    friend class AVL;
 };
 
 //Metodos de clase
@@ -184,18 +203,22 @@ void PrendaRopa::setPuestas(int _puestas){
 void PrendaRopa::setEstado(string _estado){
     estado = _estado;
 }
-void PrendaRopa::mostrarDatos(){
-    cout << "______________________________________________________ " << endl;
-    cout << "Nombre: " << nombre << endl;
-    cout << "Tipo: " << tipo << endl;
-    cout << "Color: " << color << endl;
-    cout << "Talla: " << talla << endl;
-    cout << "Material: " << material << endl;
-    cout << "Estado: " << estado << endl;
-    cout << "Puestas: " << puestas << endl;
-    cout << "ID: " << id << endl;
-    cout << endl;
+
+/**
+ * mostrarDatos
+ * Este metodo muestra los datos de la prenda, en forma de un string para que al anidarlos todos, se pueda imprimir en forma de una tabla con cada uno de sus atributos
+ * 
+ * @param
+ * @return string datos
+ * 
+ */
+
+string PrendaRopa::mostrarDatos(){
+    string datos;
+    datos =  to_string(id) + "\t" + nombre + "\t"+ tipo + "\t" + color + "\t"+ talla + "\t" + material+ "\t" + estado+ "\t" +  to_string(puestas);
+    return datos;
 }
+
 /**
  * Constructor
  * Este metodo asigna los valores de las variables de instancia
@@ -222,13 +245,4 @@ PrendaRopa::PrendaRopa(string _nombre, string _tipo, string _color, string _tall
     id = _id;
 }
 
-PrendaRopa::PrendaRopa(Node<PrendaRopa> *nodo){
-    nombre = nodo->value.getNombre();
-    tipo = nodo->value.getTipo();
-    color = nodo->value.getColor();
-    talla = nodo->value.getTalla();
-    material = nodo->value.getMaterial();
-    estado = nodo->value.getEstado();
-    puestas = nodo->value.getPuestas();
-}
 #endif /* PRENDAROPA_H */
