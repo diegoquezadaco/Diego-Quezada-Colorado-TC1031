@@ -132,8 +132,24 @@ El método reasignarID parece realizar alguna operación de reasignación de ide
 La complejidad de tiempo es O(n), donde n es el número de nodos en el árbol. En el peor caso, se debe visitar cada nodo del árbol para realizar la operación de reasignación de IDs.
 La complejidad de espacio es O(1), ya que no se utiliza memoria adicional en función del tamaño del árbol.
 
+### Hace un análisis de complejidad correcto y completo para todos los demás componentes del programa y determina la complejidad final del programa.
 
+##### Hay métodos que no fueron mencionados en los anteriores, porque van más en cuanto a la administración de archivos, en cuanto a lectura y escritura de los mismos, los englobaré en el mismo análisis asintótico debido a que hacen acciones realmente similares y están declarados en el archivo ClosetLavadora.h a partor de la línea 667
+- Método creaCloset(), creaTienda(), y actualizaArchivo(Arbol* arbol):
+Complejidad de tiempo: O(n)
+Complejidad de espacio: O(1)
+Justificación:
+El método lee información desde un archivo CSV línea por línea utilizando un bucle while, por lo que la complejidad de tiempo está dominada por el número de líneas en el archivo.
+En cada línea, se realiza un análisis adicional para separar los campos y luego se invoca el método crearPrenda que probablemente crea un nodo en el árbol. La creación de cada prenda y la invocación de crearPrenda son operaciones de tiempo constante O(1).
+La complejidad de espacio es O(1) ya que las variables adicionales (por ejemplo, las cadenas nombre, tipo, etc.) ocupan una cantidad constante de espacio independientemente del tamaño del archivo.
+Por otro lado, para el actualizaArchivo, realiza una operación de escritura en un archivo CSV basada en la información almacenada en un árbol.
+La complejidad de tiempo está dominada por el número total de prendas en el árbol, ya que se recorre el árbol y se escribe la información de cada prenda en el archivo.
+En cada iteración del bucle for, se realiza una operación constante de escritura en el archivo, y el bucle se ejecuta una vez por cada prenda en el árbol.
+La complejidad de espacio es constante O(1) ya que las variables adicionales (por ejemplo, la variable prenda) ocupan una cantidad constante de espacio independientemente del tamaño del árbol.
+El método no utiliza memoria adicional en función del tamaño del árbol.
 
+#### Complejidad final del programa:
+ Es posible conseguir que aunque se comience con un árbol no degenerado, existe la posibilidad de que haciendo uso de muchos de los métodos mencionados con anterioridad que modifican el árbol, en este caso, add y remove, para que el árbol quede completamente degenerado, lo que implicaría que el árbol ya no sería un árbol de búsqueda binaria como tal, sino más una Singly-Linked List, aunque sin la particularidad de la tail que esta tiene, por lo que para incersiones, eliminaciones y búsquedas, en el peor de los casos tenemos una complejidad temporal de O(n), teniendo que recorrer todos los nodos y su complejidad espacial sería nuevamente de O(n). En este caso, perdería toda la eficiencia que caracteriza al BST como tal.
 
 ## SICT0302: Toma decisiones
 ### Selecciona un algoritmo de ordenamiento adecuado al problema y lo usa correctamente.
