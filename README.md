@@ -182,5 +182,10 @@ El programa solo corre en la consola o en replit también y esta hecho con c++ s
 
 -correr en windows: "a.exe"
 
+- Al iniciar el programa, se mostrará un menú principal con varias opciones numeradas.
+- Ingresa solo el número correspondiente a la opción que desea ejecutar y presione Enter.
+- Siga las instrucciones en pantalla para completar la operación seleccionada.
+- El programa proporcionará retroalimentación y resultados de las operaciones realizada
+
 ## Restricciones o casos en los que el programa deja de funcionar:
 -Cuando se solicite la entrada de datos, por lo general se dan opciones de numeros para que el usuario escoja o en su defecto, se pide que se escriba un nombre o la palabra si o no. Para estos casos, favor de ser muy cuidadoso e ingresar el tipo de dato que se espera, de lo contrario, el programa deja de funcionar
