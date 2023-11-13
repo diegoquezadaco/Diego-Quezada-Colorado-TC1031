@@ -152,19 +152,24 @@ El método no utiliza memoria adicional en función del tamaño del árbol.
  Es posible conseguir que aunque se comience con un árbol no degenerado, existe la posibilidad de que haciendo uso de muchos de los métodos mencionados con anterioridad que modifican el árbol, en este caso, add y remove, para que el árbol quede completamente degenerado, lo que implicaría que el árbol ya no sería un árbol de búsqueda binaria como tal, sino más una Singly-Linked List, aunque sin la particularidad de la tail que esta tiene, por lo que para incersiones, eliminaciones y búsquedas, en el peor de los casos tenemos una complejidad temporal de O(n), teniendo que recorrer todos los nodos y su complejidad espacial sería nuevamente de O(n). En este caso, perdería toda la eficiencia que caracteriza al BST como tal.
 
 ## SICT0302: Toma decisiones
+
 ### Selecciona un algoritmo de ordenamiento adecuado al problema y lo usa correctamente.
-QuickSort es una elección sólida para ordenar un closet de prendas de vestir, especialmente si valoras la eficiencia promedio y la adaptabilidad a datos parcialmente ordenados. Aunque ahora con la incorporación de la estructura de árbol AVL, el algoritmo de búsqueda prácticamente viene incluido con la estructura y es aún más eficiente que el QuickSort
+QuickSort es una elección sólida para ordenar un closet de prendas de vestir, especialmente si valoras la eficiencia promedio y la adaptabilidad a datos parcialmente ordenados. Aunque ahora con la incorporación de la estructura de árbol BST, el algoritmo de búsqueda prácticamente viene incluido con la estructura y es aún más eficiente que el QuickSort, y es adecuado y muy eficaz cuando se trabaja con un árbol al menos relativamente ordenado y no tan degenerado, ya que mejora mucho el tiempo asintótico de la búsqueda de los elementos
 
 ### Selecciona una estructura de datos adecuada al problema y lo usa correctamente.
-Nuevamente mencionamos que establecimos una estructura de árbol AVL, donde cada nodo de dicho árbol es un elemento de tipo Prenda Ropa y organiza de buena manera la estructura clave para el manejo de datos en ClosetLavadora
+
+Nuevamente mencionamos que establecimos una estructura de árbol BST, donde cada nodo de dicho árbol es un elemento de tipo Prenda Ropa y organiza de buena manera la estructura clave para el manejo de datos en ClosetLavadora, aunque los métodos para realizar la organización como tal del árbol y administrar los nodos y leer los datos, se encuentra explicita en la declaración de Arbol.h, cuyas funciones fueron previamente desglosadas, y para hacer uso correcto de los datos, alteraremos un poco el orden de la importación de los datos desde el archivo CSV, para que el algoritmo de búsqueda sea de la mejor manera posible
 
 ## SICT0303: Implementa acciones científicas
 
 ### Implementa mecanismos para consultar información de las estructras correctos.
-Auxiliados de la estructura general del árbol AVL, se crearon funciones auxiliares en dich archivo (AVL.h), que ayudan a extraer valores recorriendo el árbol
+Auxiliados de la estructura general del árbol BST, se crearon funciones auxiliares en dich archivo (Arbol.h), que ayudan a extraer valores recorriendo el árbol, en este caso, son las funciones que fueron desglosadas anteriormente que son mostrarDatos(), declarada en la 507 del archivo Arbol.h, que se apoya a su vez de la llamada de la función de Nodo mostrarDatoss(), declarada en la linea 224 del mismo archivo, que a su vez de apoya de la llamada de la función mostrarDatos(), declarada en la linea 216 del archivo PrendaRopa.h, y se muestran la de todo el arbol de closet o tienda respectivamente haciendo uso de la llamada de las funciones mencionadas anteriormente en la funcion consultarCloset(), de la clase ClosetLavadora.h en la linea  312, donde se muestran apiladas y divididas en una tabla por atributo.
 
 ### Implementa mecanismos de lectura de archivos para cargar datos a las estructuras de manera correcta.
-En el archivo de ClosetLavadora, con ayuda de las 2 últimas funciones, es decir creaCloset y creaTienda, se importan los datos de un archivo .csv a la estructura del árbol, con ayuda de la librería ifstream, en el proceso se involucra el proceso de apertura y lectura correcta de archivos para incluirlos correctamente en el árbol
+- En el archivo de ClosetLavadora, con ayuda de las 2 penúltimas funciones (la penúltima y la penúltima), es decir creaCloset y creaTienda, se importan los datos de un archivo .csv a la estructura del árbol, con ayuda de la librería fstream, en el proceso se involucra el proceso de apertura y lectura correcta de archivos para incluirlos correctamente en el árbol. 
+
+### Implementa mecanismos de escritura de archivos para guardar los datos  de las estructuras de manera correcta.
+- A su vez en la última función de dicho archivo es decir actualizarArchivo(Arbol* arbol), declarada en la línea 859 del archivo ClosetLavadora.h, nuevamente apoyados de la libreria para editar archivos fstream, hacemos un ciclo para recorrer el arbol por completo, después de todos los cambios efectuados durante el ciclo, para que guarde los cambios efectuados, reescribiendo el archivo, respetando el formato, y de esta manera en proximas corridad del programa no se empieza de 0, sino desde el último cambio o modificación efectuada.
 
 ## Consideraciones:
 Todos los archivos deben estar en la misma carpeta, para que el prorgrama funcione correctamente
