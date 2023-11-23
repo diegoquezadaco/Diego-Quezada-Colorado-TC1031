@@ -9,8 +9,8 @@
  * Esta es la clase que contiene las prendas de ropa
  * Sera compuesta por objetos de la clase PrendaRopa
  * Estará basado en la funcionalidad original de ClosetLavadora_borrador.h
- * sin emabrgo, ahora utilizará un arbol Arbol para almacenar las prendas, en lugar de un arreglo
- * pero implementará el Arbol como una clase
+ * sin emabrgo, ahora utilizará un DLL DLL para almacenar las prendas, en lugar de un arreglo
+ * pero implementará el DLL como una clase
  * 
 */
 
@@ -19,12 +19,13 @@
 #include <iostream>
 #include <string>
 #include "PrendaRopa.h"
-//#include "Closeeeeet.txt"
-//#include "Tienda.txt"
 #include <sstream>
 #include <fstream>
 #include <vector>
-#include "Arbol.h"
+#include "exception.h"
+#include <algorithm>
+#include "DLL.h"
+//#include "DLL.h"
 
 using namespace std;
 
@@ -33,14 +34,14 @@ class ClosetLavadora {
     private:
     //Declaro las variables de instancia
     int num_prendas=0;
-    Arbol *Tienda;
+    DLL *Tienda;
     int num_prendas_tienda=0;
-    Arbol *Closet;
+    DLL *Closet;
     public:
     //Declaro los metodos de clase
 
-    Arbol* getCloset();
-    Arbol* getTienda();
+    DLL* getCloset();
+    DLL* getTienda();
     ClosetLavadora();
     ClosetLavadora(string _s);
     void setNumPrendas();
@@ -71,7 +72,7 @@ class ClosetLavadora {
     void ordenarClosetPuestasCalcetines();
     void creaCloset();
     void creaTienda();
-    void actualizaArchivo(Arbol* arbol);
+    void actualizaArchivo(DLL* DLL);
 
 };
 //Metodos de clase
@@ -84,10 +85,10 @@ class ClosetLavadora {
  * 
  */
 ClosetLavadora::ClosetLavadora(){
-    Closet = new Arbol;
-    Tienda = new Arbol;
+    Closet = new DLL;
+    Tienda = new DLL;
     creaCloset();
-    //creaTienda();
+    creaTienda();
     setNumPrendas();
     setNumPrendasTienda();
 }
@@ -104,7 +105,7 @@ ClosetLavadora::ClosetLavadora(){
 ClosetLavadora::ClosetLavadora(string _s){
     //setNumPrendas();
     //setNumPrendasTienda();
-    Closet = new Arbol;
+    Closet = new DLL;
     setNumPrendas();
 
 
@@ -114,27 +115,27 @@ ClosetLavadora::ClosetLavadora(string _s){
 
 /**
  * getCloset
- * Este metodo regresa el arbol del closet
+ * Este metodo regresa el DLL del closet
  * 
  * @param
- * @return Arbol *Closet
+ * @return DLL *Closet
  * 
  */
 
-Arbol* ClosetLavadora::getCloset(){
+DLL* ClosetLavadora::getCloset(){
     return Closet;
 }
 
 /**
  * getTienda
- * Este metodo regresa el arbol de la tienda
+ * Este metodo regresa el DLL de la tienda
  * 
  * @param
- * @return Arbol *Tienda
+ * @return DLL *Tienda
  * 
  */
 
-Arbol* ClosetLavadora::getTienda(){
+DLL* ClosetLavadora::getTienda(){
     return Tienda;
 }
 
@@ -142,7 +143,7 @@ Arbol* ClosetLavadora::getTienda(){
 /**
  * setNumPrendas
  * Este metodo inicializa el numero de prendas en el closet, recorriendo el
- * arbol, nodo por nodo y contando el numero total de nodos en el arbol, en este caso
+ * DLL, nodo por nodo y contando el numero total de nodos en el DLL, en este caso
  * partiendo desde la raiz, y asigna ese valor a la variable de instancia
  * num_prendas, checando si el value de cada nodo es diferente de nullptr
  * 
@@ -152,11 +153,10 @@ Arbol* ClosetLavadora::getTienda(){
  * 
  */
 
-
 void ClosetLavadora::setNumPrendas(){
-    //nos apoyamos de la función de Arbol de contar_prendas para contar el numero de prendas en el closet
-    if (Closet->getRoot() != nullptr){
-        num_prendas = Closet->contar_prendas();
+    //nos apoyamos de la función de DLL de contar_prendas para contar el numero de prendas en el closet
+    if (!Closet->empty()){
+        num_prendas = Closet->size;
     } else {
         num_prendas = 0;
     }
@@ -168,7 +168,7 @@ void ClosetLavadora::setNumPrendas(){
 /**
  * setNumPrendasTienda
  * Este metodo inicializa el numero de prendas en la tienda, recorriendo el
- * arbol con un fory contando el numero total de nodos, en este caso 
+ * DLL con un fory contando el numero total de nodos, en este caso 
  * del árbol de la tienda y asigna ese valor a la variable de instancia 
  * num_prendas_tienda
  * 
@@ -179,9 +179,9 @@ void ClosetLavadora::setNumPrendas(){
  */
 
 void ClosetLavadora::setNumPrendasTienda(){
-    //nos apoyamos de la función de Arbol de contar_prendas para contar el numero de prendas en la tienda
-    if (Tienda->getRoot() != nullptr){
-        num_prendas_tienda = Tienda->contar_prendas();
+    //nos apoyamos de la función de DLL de contar_prendas para contar el numero de prendas en la tienda
+    if (Tienda->getHead() != nullptr){
+        num_prendas_tienda = Tienda->getSize();
     } else {
         num_prendas_tienda = 0;
     }
@@ -214,7 +214,7 @@ int ClosetLavadora::getNumPrendasTienda(){
 /**
  * crearPrenda
  * Este metodo agrega una prenda al closet, creando un objeto de la clase PrendaRopa
- * y agregandolo al arbol del closet o de la tienda, dependiendo de si se trata de una
+ * y agregandolo al DLL del closet o de la tienda, dependiendo de si se trata de una
  * prenda nueva o de una prenda comprada, obtiene la información de esta prenda
  * por medio de un archivo csv
  * 
@@ -239,8 +239,8 @@ void ClosetLavadora::crearPrenda(string _nombre, string _tipo, string _color, st
 /**
  * limpias
  * Este metodo regresa el numero de prendas limpias en el closet
- * recorre todas las prendas del arbol de closet y cuenta las que estan limpias,
- * recorriendo todos los elementos del arbol con ayuda de su atributo id y checando elemento por elemento si es limpia o lavando
+ * recorre todas las prendas del DLL de closet y cuenta las que estan limpias,
+ * recorriendo todos los elementos del DLL con ayuda de su atributo id y checando elemento por elemento si es limpia o lavando
  * 
  * 
  * 
@@ -250,14 +250,13 @@ void ClosetLavadora::crearPrenda(string _nombre, string _tipo, string _color, st
  */
 
 int ClosetLavadora::limpias(){
+    
     int i= num_prendas;
     int num = 0;
-    for (int j = 1; j <= i; j++){
-        Nodo* nodo = Closet->search(j);
-        if (nodo != nullptr ){
-            if ( nodo->value.getEstado() == "Limpia"){
-                num++;
-            }
+    for (int j = 1; j < i; j++){
+        DLink* nodo = Closet->search(j);
+        if (nodo != Closet->getTail() && nodo->getData().getEstado() == "Limpia"){
+            num++;
         }
     }
     return num;
@@ -266,8 +265,8 @@ int ClosetLavadora::limpias(){
 /**
  * lavando
  * Este metodo regresa el numero de prendas en el closet que estan lavandose
- * recorre todas las prendas del arbol de closet y cuenta las que estan lavandose
- * con un for que busca en el arbol con la funcion search de la clase Arbol
+ * recorre todas las prendas del DLL de closet y cuenta las que estan lavandose
+ * con un for que busca en el DLL con la funcion search de la clase DLL
  * y después cambia el estado de las prendas que estan lavandose a "Limpias"
  * 
  * 
@@ -281,10 +280,10 @@ int ClosetLavadora::lavando(){
     int i= num_prendas;
     int num = 0;
     for (int j = 1; j < i; j++){
-        Nodo* nodo = Closet->search(j);
-        if (nodo != nullptr && nodo->value.getEstado() == "Lavando"){
+        DLink* nodo = Closet->search(j);
+        if (nodo != nullptr && nodo->getData().getEstado() == "Lavando"){
             num++;
-            nodo->value.setEstado("Limpia");
+            Closet->search(j)->getData().setEstado("Limpia");
         }
     }
     return num;
@@ -297,7 +296,7 @@ int ClosetLavadora::lavando(){
 
 /**
  * consultarCloset
- * Este metodo imprime el arbol del closet y los datos de cada prenda
+ * Este metodo imprime el DLL del closet y los datos de cada prenda
  * separados por un salto de linea
  * 
  * 
@@ -308,8 +307,8 @@ int ClosetLavadora::lavando(){
  */
 void ClosetLavadora::consultarCloset(){
     cout << "Prendas en el closet: " << getNumPrendas() << endl;
-    cout << "Prendas limpias: " << limpias() << endl;
-    cout << "Prendas lavandose: " << lavando() << endl;
+    //cout << "Prendas limpias: " << limpias() << endl;
+    //cout << "Prendas lavandose: " << lavando() << endl;
     string o;
     cout << "¿Desea ver las prendas? (si/no)" << endl;
     cin >> o;
@@ -326,8 +325,8 @@ void ClosetLavadora::consultarCloset(){
 /**
  * usarPrenda
  * Este metodo cambia el estado de una prenda de "limpia" a "usada"
- * recorre todas las prendas del arbol de closet y cambia el estado de la prenda
- * que se le indique, usando ek método search de la clase Arbol
+ * recorre todas las prendas del DLL de closet y cambia el estado de la prenda
+ * que se le indique, usando ek método search de la clase DLL
  * 
  * 
  * 
@@ -338,7 +337,7 @@ void ClosetLavadora::consultarCloset(){
 void ClosetLavadora::usarPrenda(int _id){
     
     
-        PrendaRopa prenda = (Closet->search(_id))->value;
+        PrendaRopa prenda = (Closet->search(_id))->getData();
 
         if (prenda.getID() == _id){
             if (prenda.getEstado()== "Limpia"){
@@ -381,24 +380,25 @@ void ClosetLavadora::usarPrenda(int _id){
 
 /**
  * comprarPrenda
- * Este método le permite al usuario comprar una prenda del arbol de tienda
- * y agregarla al arbol de closet, el método además verifica que la prenda
- * que se desea comprar esté en la tienda y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
+ * Este método le permite al usuario comprar una prenda del DLL de tienda
+ * y agregarla al DLL de closet, el método además verifica que la prenda
+ * que se desea comprar esté en la tienda y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
  * 
  * @param int _id
  * @return
 */
 
 void ClosetLavadora::comprarPrenda(int _id){
-    Nodo* nodo = Tienda->search(_id);
+    DLink* nodo = Tienda->search(_id);
     if (nodo != nullptr){
-        PrendaRopa prenda = nodo->value;
+        PrendaRopa prenda = nodo->getData();
         prenda.setEstado("Limpia");
         Closet->add(prenda);
         Tienda->remove(prenda);
         setNumPrendas();
         setNumPrendasTienda();
+        Closet->reasignarID();
     } else {
         cout << "No se encontró la prenda en la tienda" << endl;
     }
@@ -406,26 +406,27 @@ void ClosetLavadora::comprarPrenda(int _id){
 
 /**
  * desecharPrenda
- * Este método le permite al usuario desechar una prenda del arbol de closet
- * y eliminarla del arbol, el método además verifica que la prenda
- * que se desea desechar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
+ * Este método le permite al usuario desechar una prenda del DLL de closet
+ * y eliminarla del DLL, el método además verifica que la prenda
+ * que se desea desechar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
  * 
  * @param int _id
  * @return
 */
 
-void ClosetLavadora::desecharPrenda(int _id){
-    Nodo* nodo = Closet->search(_id);
-    if (nodo != nullptr){
-        PrendaRopa prenda = nodo->value;
-        Closet->remove(prenda);
-        cout << "Se ha eliminado la prenda" << endl;
-        setNumPrendas();
-        
+//creamos desechar prenda, que elimina una prenda del closet
+//hacemos uso de la nueva implementacion de DLL
 
+void ClosetLavadora::desecharPrenda(int _id){
+    DLink* nodo = Closet->search(_id);
+    if (nodo != nullptr){
+        PrendaRopa prenda = nodo->getData();
+        Closet->remove(prenda);
+        setNumPrendas();
+        Closet->reasignarID();
     } else {
-        cout << "No se encontró la prenda a desechar en el closet" << endl;
+        cout << "No se encontró la prenda en el closet" << endl;
     }
 }
 
@@ -433,9 +434,9 @@ void ClosetLavadora::desecharPrenda(int _id){
  * filtrarClosetTipo
  * Este método le permite al usuario filtrar las prendas del closet por tipo
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea filtrar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de filtrar Tipo de la clase Arbol
+ * que se desea filtrar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de filtrar Tipo de la clase DLL
  * 
  * @param string _tipo
  * @return
@@ -449,9 +450,9 @@ void ClosetLavadora::filtrarClosetTipo(string _tipo){
  * filtrarClosetColor
  * Este método le permite al usuario filtrar las prendas del closet por color
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea filtrar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de filtrar Color de la clase Arbol
+ * que se desea filtrar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de filtrar Color de la clase DLL
  * 
  * @param string _color
  * @return
@@ -465,9 +466,9 @@ void ClosetLavadora::filtrarClosetColor(string _color){
  * filtrarClosetTalla
  * Este método le permite al usuario filtrar las prendas del closet por talla
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea filtrar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de filtrar Talla de la clase Arbol
+ * que se desea filtrar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de filtrar Talla de la clase DLL
  * 
  * @param string _talla
  * @return
@@ -481,9 +482,9 @@ void ClosetLavadora::filtrarClosetTalla(string _talla){
  * filtrarClosetMaterial
  * Este método le permite al usuario filtrar las prendas del closet por material
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea filtrar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de filtrar Material de la clase Arbol
+ * que se desea filtrar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de filtrar Material de la clase DLL
  * 
  * @param string _material
  * @return
@@ -497,9 +498,9 @@ void ClosetLavadora::filtrarClosetMaterial(string _material){
  * filtrarClosetEstado
  * Este método le permite al usuario filtrar las prendas del closet por estado
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea filtrar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de filtrar Estado de la clase Arbol
+ * que se desea filtrar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de filtrar Estado de la clase DLL
  * 
  * @param string _estado
  * @return
@@ -513,9 +514,9 @@ void ClosetLavadora::filtrarClosetEstado(string _estado){
  * ordenarClosetPuestasPlayeras
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de ordenar Puestas de la clase Arbol
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de ordenar Puestas de la clase DLL
  * 
  * @param
  * @return
@@ -529,9 +530,9 @@ void ClosetLavadora::ordenarClosetPuestasPlayeras(){
  * ordenarClosetPuestasPantalones
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de ordenar Puestas de la clase Arbol
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de ordenar Puestas de la clase DLL
  * 
  * @param
  * @return
@@ -548,9 +549,9 @@ void ClosetLavadora::ordenarClosetPuestasPantalones(){
  * ordenarClosetPuestasChamarras
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de ordenar Puestas de la clase Arbol
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de ordenar Puestas de la clase DLL
  * 
  * @param
  * @return
@@ -568,9 +569,9 @@ void ClosetLavadora::ordenarClosetPuestasChamarras(){
  * ordenarClosetPuestasZapatos
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de ordenar Puestas de la clase Arbol
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de ordenar Puestas de la clase DLL
  * 
  * @param
  * @return
@@ -598,9 +599,9 @@ void ClosetLavadora::ordenarClosetPuestasZapatos(){
  * ordenarClosetPuestasAccesorios
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de ordenar Puestas de la clase Arbol
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de ordenar Puestas de la clase DLL
  * 
  * @param
  * @return
@@ -633,9 +634,9 @@ void ClosetLavadora::ordenarClosetPuestasAccesorios(){
  * ordenarClosetPuestasRopaInterior
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de ordenar Puestas de la clase Arbol
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de ordenar Puestas de la clase DLL
  * 
  * @param
  * @return
@@ -649,9 +650,9 @@ void ClosetLavadora::ordenarClosetPuestasRopaInterior(){
  * ordenarClosetPuestasCalcetines
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el arbol Arbol
- * con los métodos del archivo Arbol.h
- * usa el metodo de ordenar Puestas de la clase Arbol
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * con los métodos del archivo DLL.h
+ * usa el metodo de ordenar Puestas de la clase DLL
  * 
  * @param
  * @return
@@ -668,7 +669,7 @@ void ClosetLavadora::ordenarClosetPuestasCalcetines(){
  * función encargada de importar todos los datos de un archivo .csv "Closeet.csv" donde puede obtener 
  * datos acerca de las prendas, cada renglon son los datos de una prenda diferente, 
  * en el orden id, nombre, tipo, color, talla, material, estado, puestas
- * importa estos datos y crea objetos de tipo PrendaRopa con estos datos, y los agrega al arbol
+ * importa estos datos y crea objetos de tipo PrendaRopa con estos datos, y los agrega al DLL
 */
 
 void ClosetLavadora::creaCloset(){
@@ -744,11 +745,11 @@ void ClosetLavadora::creaCloset(){
 
 /**
  * creaTienda
- * Este método crea el arbol de la tienda, leyendo un archivo csv
+ * Este método crea el DLL de la tienda, leyendo un archivo csv
  * importado como un arreglo de strings, y separando los datos de cada prenda
  * en variables de tipo string, para después convertir los datos que lo requieran
  * a su tipo de dato correspondiente, y crear un objeto de la clase PrendaRopa
- * con estos datos con el metodo creaPrenda, y agregarlo al arbol de la tienda
+ * con estos datos con el metodo creaPrenda, y agregarlo al DLL de la tienda
  * 
  * 
  * 
@@ -827,9 +828,9 @@ void ClosetLavadora::creaTienda(){
 
 /**
  * actualizaArchivo
- * funcióon auxiliar que ayuda a que todos los cambios que se realicen en el arbol, se actualice inmediataente en el archivo csv
- * en el archivo Closet.csv o Tienda.csv, dependiendo de si se trata de un cambio en el arbol de closet o de tienda
- * esto se especificará en el argumento que reciba, y básicamente lo que hace es importar los datos del arbol, por el orden impuesto por 
+ * funcióon auxiliar que ayuda a que todos los cambios que se realicen en el DLL, se actualice inmediataente en el archivo csv
+ * en el archivo Closet.csv o Tienda.csv, dependiendo de si se trata de un cambio en el DLL de closet o de tienda
+ * esto se especificará en el argumento que reciba, y básicamente lo que hace es importar los datos del DLL, por el orden impuesto por 
  * los IDs de las prendas, y sobreescribir el archivo csv con estos datos
  * no crea prendas nuevas, y sobreescribe el archivo en el formato que se especifica en el método
  * creaTienda, de la manera en que se importan los datos, nombre, tipo, color, talla, material, estado, puestas, id
@@ -853,23 +854,23 @@ void ClosetLavadora::creaTienda(){
 */
 
 
-void ClosetLavadora::actualizaArchivo(Arbol* arbol){
+void ClosetLavadora::actualizaArchivo(DLL* DLL){
     ofstream archivoSalida;
-    if (arbol == Closet){
+    if (DLL == Closet){
         archivoSalida.open("Closeet.csv");
-    } else if (arbol == Tienda){
+    } else if (DLL == Tienda){
         archivoSalida.open("Tienda.csv");
     } else {
-        cerr << "Error: arbol no reconocido." << endl;
+        cerr << "Error: DLL no reconocido." << endl;
         return;
     }
     if (!archivoSalida) {
         cerr << "No se pudo abrir el archivo de salida." << endl;
         return;
     }
-    //recorremos el arbol, y vamos escribiendo los datos de cada prenda en el archivo
-    for (int i = 0; i < arbol->contar_prendas(); i++) {
-        PrendaRopa prenda = (arbol->search(i+1))->value;
+    //recorremos el DLL, y vamos escribiendo los datos de cada prenda en el archivo
+    for (int i = 0; i < DLL->getSize(); i++) {
+        PrendaRopa prenda = (DLL->search(i+1))->getData();
         archivoSalida << prenda.getNombre() << ","
                       << prenda.getTipo() << ","
                       << prenda.getColor() << ","

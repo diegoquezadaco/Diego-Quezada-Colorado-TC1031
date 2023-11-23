@@ -1,14 +1,14 @@
 Blusa_casual      ,Playera,Azul,M,Seda,Limpia,0,1
 Pantalon_de_mezclilla,Pantalon,Azul,32,Algodón,Limpia,0,2
-Chamarra_de_cuero,Chamarra,Negro,M,Cuero,Lavando,3,3
+Chamarra_de_cuero,Chamarra,Negro,M,Cuero,Limpia,3,3
 Zapatos_deportivos,Zapatos,Blanco,M,Sintético,Limpia,0,4
 Accesorio_de_moda,Accesorio,Dorado,U,Plástico,Limpia,0,5
 Ropa_interior,Playera,Blanco,S,Algodón,Limpia,0,6
-Calcetines_deportivos,Calcetines,Blanco,M,Algodón,Lavando,2,7
-Camiseta_básica,Playera,Blanco,M,Algodón,Lavando,1,8
+Calcetines_deportivos,Calcetines,Blanco,M,Algodón,Limpia,2,7
+Camiseta_básica,Playera,Blanco,M,Algodón,Limpia,1,8
 Pantalón_de_vestir,Pantalon,Negro,32,Lana,Limpia,0,9
 Cazadora,Chamarra,Verde,M,Nailon,Limpia,0,10
-Sneakers,Zapatos,Gris,38,Sintético,Lavando,5,11
+Sneakers,Zapatos,Gris,38,Sintético,Limpia,5,11
 Gafas_de_sol,Accesorio,Negro,U,Plástico,Limpia,0,12
 Sujetador,Playera,Rojo,34,Algodón,Limpia,0,13
 Medias_de_lana,Calcetines,Gris,M,Lana,Limpia,0,14
@@ -21,7 +21,7 @@ Botas_de_lluvia,Zapatos,Negro,38,Caucho,Limpia,0,20
 Collar,Accesorio,Plata,U,Metal,Limpia,0,21
 Brasier_de_encaje,Playera,Negro,34,Algodón,Limpia,0,22
 Calcetines_de_vestir,Calcetines,Negro,M,Algodón,Limpia,0,23
-Top_de_tirantes,Playera,Blanco,S,Algodón,Lavando,1,24
+Top_de_tirantes,Playera,Blanco,S,Algodón,Limpia,1,24
 Pantalon_corto,Pantalon,Azul,32,Algodón,Limpia,0,25
 Chaqueta_de_mezclilla,Chamarra,Azul,M,Algodón,Limpia,0,26
 Zapato_de_tacón,Zapatos,Negro,34,Cuero,Limpia,0,27
@@ -71,15 +71,15 @@ Calcetines_largos,Calcetines,Gris,M,Algodon,Limpia,2,70
 Blusa_de_manga_corta,Playera,Azul,M,Algodon,Limpia,2,71
 Blusa_casual,Playera,Azul,M,Seda,Limpia,2,72
 Pantalon_de_mezclilla,Pantalón,Azul,32,Algodon,Limpia,2,73
-Chamarra_de_cuero,Chamarra,Negro,M,Piel,Lavando,3,74
+Chamarra_de_cuero,Chamarra,Negro,M,Piel,Limpia,3,74
 Zapatos_deportivos,Zapatos,Blanco,M,Sintetico,Limpia,2,75
 Accesorio_de_moda,Accesorio,Gold,U,Plastico,Limpia,2,76
 Ropa_interior,Playera,Blanco,S,Algodon,Limpia,2,77
-Calcetines_deportivos,Calcetines,Blanco,M,Algodon,Lavando,2,78
-Camiseta_básica,Playera,Blanco,M,Algodon,Lavando,2,79
+Calcetines_deportivos,Calcetines,Blanco,M,Algodon,Limpia,2,78
+Camiseta_básica,Playera,Blanco,M,Algodon,Limpia,2,79
 Pantalón_de_vestir,Pantalón,Negro,32,Lana,Limpia,2,80
 Cazadora,Chamarra,Verde,M,Nylon,Limpia,2,81
-Sneakers,Zapatos,Gris,38,Sintetico,Lavando,5,82
+Sneakers,Zapatos,Gris,38,Sintetico,Limpia,5,82
 Gafas_de_sol,Accesorio,Negro,U,Plastico,Limpia,2,83
 Sujetador,Playera,Rojo,34,Algodon,Limpia,2,84
 Medias_de_lana,Calcetines,Gris,M,Lana,Limpia,2,85
@@ -92,7 +92,7 @@ Botas_de_lluvia,Zapatos,Negro,38,Rubber,Limpia,2,91
 Collar,Accesorio,Metal,U,Metal,Limpia,2,92
 Brasier_de_encaje,Playera,Negro,34,Algodon,Limpia,2,93
 Calcetines_de_vestir,Calcetines,Negro,M,Algodon,Limpia,2,94
-Top_de_tirantes,Playera,Blanco,S,Algodon,Lavando,2,95
+Top_de_tirantes,Playera,Blanco,S,Algodon,Limpia,2,95
 Pantalon_corto,Pantalón,Azul,32,Algodon,Limpia,2,96
 Chaqueta_de_mezclilla,Chamarra,Azul,M,Algodon,Limpia,2,97
 Zapato_de_tacón,Zapatos,Negro,34,Piel,Limpia,2,98

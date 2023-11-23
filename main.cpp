@@ -206,6 +206,10 @@ int main(){
             cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
             cout << closet1.getTienda()->mostrarDatos()<< endl;
             cout << "--------------------------------------------------------------"<< endl;
+            cout << "Escriba el ID de la prenda que desea usar?" << endl;
+            int id;
+            cin >> id;
+            closet1.comprarPrenda(id);
         } else if (opcion == 6){
             cout << "Escriba el ID de la prenda que desea desechar?" << endl;
             int id;

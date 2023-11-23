@@ -18,6 +18,7 @@
 using namespace std;
 #include <vector>
 #include <fstream>
+#include "exception.h"
 
 //Clase PrendaRopa
 class PrendaRopa {
@@ -72,8 +73,8 @@ class PrendaRopa {
     bool operator>=(const PrendaRopa& p) {
         return id >= p.id;
     }
-    friend class Node;
-    friend class AVL;
+    friend class DLink;
+    friend class DLL;
 };
 
 //Metodos de clase
