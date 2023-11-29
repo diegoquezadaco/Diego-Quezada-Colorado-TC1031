@@ -18,7 +18,7 @@
 #include <algorithm>
 #include "PrendaRopa.h"
 #include "ClosetLavadora.h"
-#include "Arbol.h"
+#include "DLL.h"
 using namespace std;
 
 int main(){
@@ -31,12 +31,13 @@ int main(){
     while (opcion !=7){
         cout << "MENU" << endl;
         cout << "¿Qué deseas hacer?" << endl;
+        cout << "Si desea usar las funciones 4 y 6, le recomendamos que primero consulte el closet con las funciones entre la 1 y la 3 "<< endl;
         cout << "1. Consultar closet" << endl;
         cout << "2. Filtrar closet" << endl;
         cout << "3. Ordenar Closet por puestas" << endl;
-        cout << "4. Usar prenda" << endl;
+        cout << "4. Usar prenda (requiere ID)" << endl;
         cout << "5. Comprar prenda" << endl;
-        cout << "6. Desechar prenda" << endl;
+        cout << "6. Desechar prenda (requiere ID)" << endl;
         
         cout << "7. Salir" << endl;
         cin >> opcion;
@@ -63,13 +64,13 @@ int main(){
                 int opcion3;
                 cin >> opcion3;
                 if (opcion3 == 1){
-                    closet1.filtrarClosetTipo("Playera");
+                    closet1.filtrarClosetTipo("Playera ");
                 } else if (opcion3 == 2){
                     closet1.filtrarClosetTipo("Pantalon");
                 } else if (opcion3 == 3){
                     closet1.filtrarClosetTipo("Chamarra");
                 } else if (opcion3 == 4){
-                    closet1.filtrarClosetTipo("Zapatos");
+                    closet1.filtrarClosetTipo("Zapatos ");
                 } else if (opcion3 == 5){
                     closet1.filtrarClosetTipo("Accesorio");
                 } else if (opcion3 == 6){
@@ -115,6 +116,7 @@ int main(){
                 cout << "1. S" << endl;
                 cout << "2. M" << endl;
                 cout << "3. L" << endl;
+                cout << "4. Unitalla" <<endl;
                 int opcion3;
                 cin >> opcion3;
                 if (opcion3 == 1){
@@ -123,7 +125,9 @@ int main(){
                     closet1.filtrarClosetTalla("M");
                 } else if (opcion3 == 3){
                     closet1.filtrarClosetTalla("L");
-                } else {
+                } else if (opcion3 == 4){
+                    closet1.filtrarClosetTalla("U");
+                }else {
                     cout << "No es una talla válida" << endl;
                 }
                 
@@ -134,6 +138,7 @@ int main(){
                 cout << "3. Seda" << endl;
                 cout << "4. Plástico" << endl;
                 cout << "5. Piel" << endl;
+                cout << "6. Metal" << endl;
                 int opcion3;
                 cin >> opcion3;
                 if (opcion3 == 1){
@@ -143,9 +148,11 @@ int main(){
                 } else if (opcion3 == 3){
                     closet1.filtrarClosetMaterial("Seda");
                 } else if (opcion3 == 4){
-                    closet1.filtrarClosetMaterial("Plástico");
+                    closet1.filtrarClosetMaterial("Plastic");
                 } else if (opcion3 == 5){
                     closet1.filtrarClosetMaterial("Piel");
+                } else if (opcion3 == 6){
+                    closet1.filtrarClosetMaterial("Metal");
                 } else {
                     cout << "No es un material válido" << endl;
                 }
@@ -203,13 +210,14 @@ int main(){
             cout << "Bienvenido a la tienda" << endl;
             cout << "Estos son los productos que tenemos disponibles" << endl;
             cout << "--------------------------------------------------------------"<< endl;
-            cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
+            cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" << "Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
             cout << closet1.getTienda()->mostrarDatos()<< endl;
             cout << "--------------------------------------------------------------"<< endl;
-            cout << "Escriba el ID de la prenda que desea usar?" << endl;
+            cout << "Escriba el ID de la prenda que desea comprar?" << endl;
             int id;
             cin >> id;
             closet1.comprarPrenda(id);
+            cout << "Prenda comprada" << endl;
         } else if (opcion == 6){
             cout << "Escriba el ID de la prenda que desea desechar?" << endl;
             int id;

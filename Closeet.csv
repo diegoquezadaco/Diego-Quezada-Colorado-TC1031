@@ -1,99 +1,99 @@
-Blusa_casual      ,Playera,Azul,M,Seda,Limpia,0,1
-Pantalon_de_mezclilla,Pantalon,Azul,32,Algodón,Limpia,0,2
-Chamarra_de_cuero,Chamarra,Negro,M,Cuero,Limpia,3,3
-Zapatos_deportivos,Zapatos,Blanco,M,Sintético,Limpia,0,4
-Accesorio_de_moda,Accesorio,Dorado,U,Plástico,Limpia,0,5
-Ropa_interior,Playera,Blanco,S,Algodón,Limpia,0,6
-Calcetines_deportivos,Calcetines,Blanco,M,Algodón,Limpia,2,7
-Camiseta_básica,Playera,Blanco,M,Algodón,Limpia,1,8
-Pantalón_de_vestir,Pantalon,Negro,32,Lana,Limpia,0,9
-Cazadora,Chamarra,Verde,M,Nailon,Limpia,0,10
-Sneakers,Zapatos,Gris,38,Sintético,Limpia,5,11
-Gafas_de_sol,Accesorio,Negro,U,Plástico,Limpia,0,12
-Sujetador,Playera,Rojo,34,Algodón,Limpia,0,13
-Medias_de_lana,Calcetines,Gris,M,Lana,Limpia,0,14
-Blusa_de_flores,Playera,Rosa,M,Seda,Limpia,0,15
-Vaqueros_ajustados,Pantalon,Azul,32,Denim,Limpia,0,16
-Chaqueta_de_invierno,Chamarra,Negro,M,Lana,Limpia,0,17
-Camisa_hawaiana,Playera,Verde,M,Algodón,Limpia,0,18
-Falda_midi,Pantalon,Negro,M,Seda,Limpia,0,19
-Botas_de_lluvia,Zapatos,Negro,38,Caucho,Limpia,0,20
-Collar,Accesorio,Plata,U,Metal,Limpia,0,21
-Brasier_de_encaje,Playera,Negro,34,Algodón,Limpia,0,22
-Calcetines_de_vestir,Calcetines,Negro,M,Algodón,Limpia,0,23
-Top_de_tirantes,Playera,Blanco,S,Algodón,Limpia,1,24
-Pantalon_corto,Pantalon,Azul,32,Algodón,Limpia,0,25
-Chaqueta_de_mezclilla,Chamarra,Azul,M,Algodón,Limpia,0,26
-Zapato_de_tacón,Zapatos,Negro,34,Cuero,Limpia,0,27
-Bolso_de_mano,Accesorio,Negro,U,Cuero,Limpia,0,28
-Pijama,Playera,Blanco,M,Algodón,Limpia,0,29
-Medias_de_nylon,Calcetines,Negro,M,Nylon,Limpia,0,30
-Blusa_blanca,Playera,Blanco,M,Algodón,Limpia,0,31
-Pantalon_de_vestir_negro,Pantalon,Negro,32,Lana,Limpia,0,32
-Chamarra_de_plumas,Chamarra,Azul,M,Plumas,Limpia,0,33
-Tenis,Zapatos,Blanco,M,Sintético,Limpia,0,34
-Corbata,Accesorio,Rojo,U,Seda,Limpia,0,35
-Braguita,Playera,Blanco,S,Algodón,Limpia,0,36
-Calcetines_largos,Calcetines,Gris,M,Algodón,Limpia,0,37
-Blusa_de_manga_corta,Playera,Azul,M,Algodón,Limpia,0,38
-Pantalón_de_chándal,Pantalon,Azul,M,Algodón,Limpia,0,39
-Chaqueta_de_senderismo,Chamarra,Verde,M,Nylon,Limpia,0,40
-Botas_de_montaña,Zapatos,Negro,G,Caucho,Limpia,0,41
-Gorra,Accesorio,Blanco,M,Algodón,Limpia,0,42
-Sujetador_deportivo,Playera,Negro,S,Algodón,Limpia,0,43
-Calcetines_de_deporte,Calcetines,Negro,L,Sintético,Limpia,0,44
-Shorts_de_baño,Pantalon,Azul,M,Algodón,Limpia,0,45
-Bañador,Playera,Azul,M,Algodón,Limpia,0,46
-Chanclas,Zapatos,Verde,38,Caucho,Limpia,0,47
-Toalla_de_playa,Accesorio,Blanco,100x100,Algodón,Limpia,0,48
-Gorro_de_sol,Accesorio,Blanco,M,Algodón,Limpia,0,49
-Gafas_de_sol_de_playa,Accesorio,Negro,M,Plástico,Limpia,0,50
-Sandalias,Zapatos,Negro,38,Cuero,Limpia,0,51
-Vestido_de_verano,Playera,Blanco,M,Algodón,Limpia,0,52
-Falda_de_verano,Pantalon,Verde,M,Algodón,Limpia,0,53
-Top_de_verano,Playera,Blanco,M,Algodón,Limpia,0,54
-Sombrero_de_paja,Accesorio,Marrón,M,Paja,Limpia,0,55
-Bolso_de_playa,Accesorio,Blanco,M,Algodón,Limpia,0,56
-Bikini,Playera,Azul,M,Algodón,Limpia,0,57
-Trikini,Playera,Verde,M,Algodón,Limpia,0,58
-Bañador_de_hombre,Playera,Azul,M,Algodón,Limpia,0,59
-Shorts_de_baño_de_hombre,Pantalon,Azul,M,Algodón,Limpia,0,60
-Chanclas_de_hombre,Zapatos,Verde,38,Caucho,Limpia,0,61
-Sombrero_de_paja_de_hombre,Accesorio,Marrón,M,Paja,Limpia,0,62
-Gafas_de_sol_de_playa_de_hombre,Accesorio,Negro,M,Plástico,Limpia,0,63
-Camisa_de_manga_corta,Playera,Blanco,M,Algodón,Limpia,0,64
-Pantalón_corto_de_hombre,Pantalon,Azul,M,Algodón,Limpia,0,65
-Zapatos_de_hombre,Zapatos,Negro,38,Cuero,Limpia,0,66
-Tenis,Zapatos,Blanco,M,Sintetico,Limpia,2,67
-Corbata,Accesorio,Rojo,U,Seda,Limpia,2,68
-Braguita,Playera,Blanco,S,Algodon,Limpia,2,69
-Calcetines_largos,Calcetines,Gris,M,Algodon,Limpia,2,70
-Blusa_de_manga_corta,Playera,Azul,M,Algodon,Limpia,2,71
-Blusa_casual,Playera,Azul,M,Seda,Limpia,2,72
-Pantalon_de_mezclilla,Pantalón,Azul,32,Algodon,Limpia,2,73
-Chamarra_de_cuero,Chamarra,Negro,M,Piel,Limpia,3,74
-Zapatos_deportivos,Zapatos,Blanco,M,Sintetico,Limpia,2,75
-Accesorio_de_moda,Accesorio,Gold,U,Plastico,Limpia,2,76
-Ropa_interior,Playera,Blanco,S,Algodon,Limpia,2,77
-Calcetines_deportivos,Calcetines,Blanco,M,Algodon,Limpia,2,78
-Camiseta_básica,Playera,Blanco,M,Algodon,Limpia,2,79
-Pantalón_de_vestir,Pantalón,Negro,32,Lana,Limpia,2,80
+Blusa casual,Playera ,Azul,M,Seda,Limpia,0,1
+Mezclilla,Pantalon,Azul,M,Lino,Limpia,0,2
+Chamarra,Chamarra,Negro,M,Piel,Limpia,0,3
+Deportivos,Zapatos ,Blanco,M,Plastic,Limpia,0,4
+Accesorio,Accesorio,Dorado,M,Plastic,Limpia,0,5
+Ropa interior,Playera ,Blanco,S,Algodón,Limpia,0,6
+Deportivos,Calcetines,Blanco,M,Algodón,Limpia,0,7
+Camiseta basica,Playera ,Blanco,M,Algodón,Limpia,0,8
+De vestir,Pantalon,Negro,M,Algodón,Limpia,0,9
+Cazadora,Chamarra,Verde,M,Plastic,Limpia,0,10
+Sneakers,Zapatos ,Gris,L,Plastic,Limpia,0,11
+Gafas de sol,Accesorio,Negro,U,Plastic,Limpia,0,12
+Sujetador,Playera ,Rojo,U,Algodón,Limpia,0,13
+Los de gala,Calcetines,Gris,M,Algodón,Limpia,0,14
+Blusa de flores,Playera ,Rosa,M,Seda,Limpia,0,15
+Ajustados,Pantalon,Azul,M,Lino,Limpia,0,16
+De invierno,Chamarra,Negro,M,Algodón,Limpia,0,17
+Camisa hawaiana,Playera ,Verde,M,Algodón,Limpia,0,18
+Falda midi,Pantalon,Negro,M,Seda,Limpia,0,19
+Botas de lluvia,Zapatos ,Negro,L,Plastic,Limpia,0,20
+Collar plata,Accesorio,Plata,U,Metal,Limpia,0,21
+Brasier encaje,Playera ,Negro,M,Algodón,Limpia,0,22
+De vestir,Calcetines,Negro,M,Algodón,Limpia,0,23
+Top de tirantes,Playera ,Blanco,S,Algodón,Limpia,1,24
+Pantalon corto,Pantalon,Azul,M,Algodón,Limpia,0,25
+De mezclilla,Chamarra,Azul,M,Algodón,Limpia,0,26
+Zapato de tacón,Zapatos ,Negro,M,Piel,Limpia,0,27
+Bolso de mano,Accesorio,Negro,U,Piel,Limpia,0,28
+Pijamita,Playera ,Blanco,M,Algodón,Limpia,0,29
+Medias de nylon,Calcetines,Negro,M,Plastic,Limpia,0,30
+Blusa blanca,Playera ,Blanco,M,Algodón,Limpia,0,31
+De vestir negro,Pantalon,Negro,M,Algodón,Limpia,0,32
+De plumas,Chamarra,Azul,M,Plumas,Limpia,0,33
+Tenis correr,Zapatos ,Blanco,M,Plastic,Limpia,0,34
+Corbata gala,Accesorio,Rojo,U,Seda,Limpia,0,35
+Pajamitas,Playera ,Blanco,S,Algodón,Limpia,0,36
+Calcetas largas,Calcetines,Gris,M,Algodón,Limpia,0,37
+Manga corta,Playera ,Azul,M,Algodón,Limpia,0,38
+De chandal,Pantalon,Azul,M,Algodón,Limpia,0,39
+De senderismo,Chamarra,Verde,M,Nylon,Limpia,0,40
+Botas montaña,Zapatos ,Negro,G,Plastic,Limpia,0,41
+Gorrita  ,Accesorio,Blanco,M,Algodón,Limpia,0,42
+Deportiva,Playera ,Negro,S,Algodón,Limpia,0,43
+De deporte,Calcetines,Negro,L,Plastic,Limpia,0,44
+Shorts de baño,Pantalon,Azul,M,Algodón,Limpia,0,45
+Traje de baño,Playera ,Azul,M,Algodón,Limpia,0,46
+Chanclas,Zapatos ,Verde,L,Plastic,Limpia,0,47
+Toalla de playa,Accesorio,Blanco,U,Algodón,Limpia,0,48
+Gorro de sol,Accesorio,Blanco,M,Algodón,Limpia,0,49
+Gafas de sol,Accesorio,Negro,M,Plastic,Limpia,0,50
+Sandalias,Zapatos ,Negro,L,Piel,Limpia,0,51
+Vestido ,Playera ,Blanco,M,Algodón,Limpia,0,52
+Falda de verano,Pantalon,Verde,M,Algodón,Limpia,0,53
+Top de verano,Playera ,Blanco,M,Algodón,Limpia,0,54
+Sombrero ,Accesorio,Negro,M,Lino,Limpia,0,55
+Bolso de playa,Accesorio,Blanco,M,Algodón,Limpia,0,56
+Bikini  ,Playera ,Azul,M,Algodón,Limpia,0,57
+Bikini B,Playera ,Verde,M,Algodón,Limpia,0,58
+Bañador hombre,Playera ,Azul,M,Algodón,Limpia,0,59
+Shorts de baño,Pantalon,Azul,M,Algodón,Limpia,0,60
+Chanclas hombre,Zapatos ,Verde,L,Plastic,Limpia,0,61
+Sombrero hombre,Accesorio,Negro,M,Lino,Limpia,0,62
+Gafas de playa,Accesorio,Negro,M,Plastic,Limpia,0,63
+Camisa corta,Playera ,Blanco,M,Algodón,Limpia,0,64
+Pantalón corto,Pantalon,Azul,M,Algodón,Limpia,0,65
+De hombre,Zapatos ,Negro,38,Piel,Limpia,0,66
+Tenis salir,Zapatos ,Blanco,M,Sintetico,Limpia,2,67
+Corbata traje,Accesorio,Rojo,U,Seda,Limpia,2,68
+Playera fut,Playera ,Blanco,S,Algodon,Limpia,2,69
+Largos,Calcetines,Gris,M,Algodon,Limpia,2,70
+Blusa de manga corta,Playera ,Azul,M,Algodon,Limpia,2,71
+Blusa casual,Playera ,Azul,M,Seda,Limpia,2,72
+Pantalon de mezclilla,Pantalón,Azul,M,Algodon,Limpia,2,73
+Chamarra de Piel,Chamarra,Negro,M,Piel,Limpia,3,74
+Zapatos  deportivos,Zapatos ,Blanco,M,Sintetico,Limpia,2,75
+Accesorio de moda,Accesorio,Gold,S,Plastic,Limpia,2,76
+Ropa interior,Playera ,Blanco,S,Algodon,Limpia,2,77
+Calcetines deportivos,Calcetines,Blanco,M,Algodon,Limpia,2,78
+Camiseta basica,Playera ,Blanco,M,Algodon,Limpia,2,79
+Pantalón de vestir,Pantalón,Negro,M,Algodón,Limpia,2,80
 Cazadora,Chamarra,Verde,M,Nylon,Limpia,2,81
-Sneakers,Zapatos,Gris,38,Sintetico,Limpia,5,82
-Gafas_de_sol,Accesorio,Negro,U,Plastico,Limpia,2,83
-Sujetador,Playera,Rojo,34,Algodon,Limpia,2,84
-Medias_de_lana,Calcetines,Gris,M,Lana,Limpia,2,85
-Blusa_de_flores,Playera,Pink,M,Seda,Limpia,2,86
-Vaqueros_ajustados,Pantalón,Azul,32,Denim,Limpia,2,87
-Chaqueta_de_invierno,Chamarra,Negro,M,Lana,Limpia,2,88
-Camisa_hawaiana,Playera,Verde,M,Algodon,Limpia,2,89
-Falda_midi,Pantalón,Negro,M,Seda,Limpia,2,90
-Botas_de_lluvia,Zapatos,Negro,38,Rubber,Limpia,2,91
-Collar,Accesorio,Metal,U,Metal,Limpia,2,92
-Brasier_de_encaje,Playera,Negro,34,Algodon,Limpia,2,93
-Calcetines_de_vestir,Calcetines,Negro,M,Algodon,Limpia,2,94
-Top_de_tirantes,Playera,Blanco,S,Algodon,Limpia,2,95
-Pantalon_corto,Pantalón,Azul,32,Algodon,Limpia,2,96
-Chaqueta_de_mezclilla,Chamarra,Azul,M,Algodon,Limpia,2,97
-Zapato_de_tacón,Zapatos,Negro,34,Piel,Limpia,2,98
-Bolso_de_mano,Accesorio,Negro,U,Piel,Limpia,2,99
+Sneakers,Zapatos ,Gris,38,Sintetico,Limpia,5,82
+Gafas de sol,Accesorio,Negro,U,Plastic,Limpia,2,83
+Sujetador,Playera ,Rojo,34,Algodon,Limpia,2,84
+Medias de Algodón,Calcetines,Gris,M,Algodón,Limpia,2,85
+Blusa de flores,Playera ,Pink,M,Seda,Limpia,2,86
+Vaqueros ajustados,Pantalón,Azul,M,Denim,Limpia,2,87
+Chaqueta de invierno,Chamarra,Negro,M,Algodón,Limpia,2,88
+Camisa hawaiana,Playera ,Verde,M,Algodon,Limpia,2,89
+Falda midi,Pantalón,Negro,M,Seda,Limpia,2,90
+Botas de lluvia,Zapatos ,Negro,38,Rubber,Limpia,2,91
+Collar,Accesorio,Plata,U,Metal,Limpia,2,92
+Brasier de encaje,Playera ,Negro,34,Algodon,Limpia,2,93
+Calcetines de vestir,Calcetines,Negro,M,Algodon,Limpia,2,94
+Top de tirantes,Playera ,Blanco,S,Algodon,Limpia,2,95
+Pantalon corto,Pantalón,Azul,M,Algodon,Limpia,2,96
+Chaqueta de mezclilla,Chamarra,Azul,M,Algodon,Limpia,2,97
+Zapato de tacón,Zapatos ,Negro,34,Piel,Limpia,2,98
+Bolso de mano,Accesorio,Negro,U,Piel,Limpia,2,99

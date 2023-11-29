@@ -45,6 +45,7 @@ class PrendaRopa {
     string getMaterial();
     string getEstado();
     int getPuestas();
+    int getPuestass() const;
     void setID(int _id);
     void setNombre(string _nombre);
     void setPuestas(int _puestas);
@@ -169,6 +170,11 @@ int PrendaRopa::getPuestas(){
 void PrendaRopa::setID(int _id){
     id = _id;
 }
+
+//getPuestas const
+int PrendaRopa::getPuestass() const{
+    return puestas;
+}
 /**
  * setNombre
  * Este metodo asigna el nombre de la prenda
@@ -216,7 +222,7 @@ void PrendaRopa::setEstado(string _estado){
 
 string PrendaRopa::mostrarDatos(){
     string datos;
-    datos =  to_string(id) + "\t" + nombre + "\t"+ tipo + "\t" + color + "\t"+ talla + "\t" + material+ "\t" + estado+ "\t" +  to_string(puestas);
+    datos =  to_string(id) + "\t" + nombre + "\t"+ "\t"+ tipo + "\t" + color + "\t"+ talla + "\t" + material+ "\t" + "\t"+ estado+ "\t"  +  to_string(puestas);
     return datos;
 }
 

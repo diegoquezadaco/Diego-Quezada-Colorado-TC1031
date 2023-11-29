@@ -25,7 +25,6 @@
 #include "exception.h"
 #include <algorithm>
 #include "DLL.h"
-//#include "DLL.h"
 
 using namespace std;
 
@@ -181,7 +180,7 @@ void ClosetLavadora::setNumPrendas(){
 void ClosetLavadora::setNumPrendasTienda(){
     //nos apoyamos de la función de DLL de contar_prendas para contar el numero de prendas en la tienda
     if (Tienda->getHead() != nullptr){
-        num_prendas_tienda = Tienda->getSize();
+        num_prendas_tienda = Tienda->size;
     } else {
         num_prendas_tienda = 0;
     }
@@ -253,9 +252,9 @@ int ClosetLavadora::limpias(){
     
     int i= num_prendas;
     int num = 0;
-    for (int j = 1; j < i; j++){
+    for (int j = 1; j <= i; j++){
         DLink* nodo = Closet->search(j);
-        if (nodo != Closet->getTail() && nodo->getData().getEstado() == "Limpia"){
+        if (nodo != nullptr && nodo->getData().getEstado() == "Limpia"){
             num++;
         }
     }
@@ -279,7 +278,7 @@ int ClosetLavadora::limpias(){
 int ClosetLavadora::lavando(){
     int i= num_prendas;
     int num = 0;
-    for (int j = 1; j < i; j++){
+    for (int j = 1; j <= i; j++){
         DLink* nodo = Closet->search(j);
         if (nodo != nullptr && nodo->getData().getEstado() == "Lavando"){
             num++;
@@ -307,15 +306,15 @@ int ClosetLavadora::lavando(){
  */
 void ClosetLavadora::consultarCloset(){
     cout << "Prendas en el closet: " << getNumPrendas() << endl;
-    //cout << "Prendas limpias: " << limpias() << endl;
-    //cout << "Prendas lavandose: " << lavando() << endl;
+    cout << "Prendas limpias: " << limpias() << endl;
+    cout << "Prendas lavandose: " << lavando() << endl;
     string o;
     cout << "¿Desea ver las prendas? (si/no)" << endl;
     cin >> o;
     if (o == "si"){
         //desplegamos los valores en forma de una tabla con los atributos de cada prenda
         cout << "------------------------------------------------------------------------------------------------"<< endl;
-        cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
+        cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
         cout << Closet->mostrarDatos() << endl;
         cout << "------------------------------------------------------------------------------------------------"<< endl;
     }
@@ -371,11 +370,17 @@ void ClosetLavadora::usarPrenda(int _id){
                     if (prenda.getPuestas() >= 1){
                         prenda.setEstado("Lavando");
                     }
-                }     
+                }
+                Closet->search(_id)->setData(prenda);     
         } else {
+            cout << "La prenda se esta lavando, la próxima vez que desee usar la prenda ya estará limpia" << endl;
+            prenda.setEstado("Limpia");
+            prenda.setPuestas(0);
+            Closet->search(_id)->setData(prenda);
+        }
+    } else {
             cout << "No se encontró la prenda" << endl;
         }
-    }
 }
 
 /**
@@ -523,7 +528,7 @@ void ClosetLavadora::filtrarClosetEstado(string _estado){
 */
 
 void ClosetLavadora::ordenarClosetPuestasPlayeras(){
-    Closet->ordenarPuestas(0, "Playera");
+    Closet->ordenarPuestas("Playera ");
 }
 
 /**
@@ -539,10 +544,7 @@ void ClosetLavadora::ordenarClosetPuestasPlayeras(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasPantalones(){
-    Closet->ordenarPuestas(0, "Pantalon");
-    Closet->ordenarPuestas(1, "Pantalon");
-    Closet->ordenarPuestas(2, "Pantalon");
-    Closet->ordenarPuestas(3, "Pantalon");
+    Closet->ordenarPuestas("Pantalon");
 }
 
 /**
@@ -558,11 +560,7 @@ void ClosetLavadora::ordenarClosetPuestasPantalones(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasChamarras(){
-    Closet->ordenarPuestas(0, "Chamarra");
-    Closet->ordenarPuestas(1, "Chamarra");
-    Closet->ordenarPuestas(2, "Chamarra");
-    Closet->ordenarPuestas(3, "Chamarra");
-    Closet->ordenarPuestas(4, "Chamarra");
+    Closet->ordenarPuestas("Chamarra");
 }
 
 /**
@@ -578,21 +576,7 @@ void ClosetLavadora::ordenarClosetPuestasChamarras(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasZapatos(){
-    Closet->ordenarPuestas(0, "Zapatos");
-    Closet->ordenarPuestas(1, "Zapatos");
-    Closet->ordenarPuestas(2, "Zapatos");
-    Closet->ordenarPuestas(3, "Zapatos");
-    Closet->ordenarPuestas(4, "Zapatos");
-    Closet->ordenarPuestas(5, "Zapatos");
-    Closet->ordenarPuestas(6, "Zapatos");
-    Closet->ordenarPuestas(7, "Zapatos");
-    Closet->ordenarPuestas(8, "Zapatos");
-    Closet->ordenarPuestas(9, "Zapatos");
-    Closet->ordenarPuestas(10, "Zapatos");
-    Closet->ordenarPuestas(11, "Zapatos");
-    Closet->ordenarPuestas(12, "Zapatos");
-    Closet->ordenarPuestas(13, "Zapatos");
-    Closet->ordenarPuestas(14, "Zapatos");
+    Closet->ordenarPuestas("Zapatos ");
 }
 
 /**
@@ -608,26 +592,7 @@ void ClosetLavadora::ordenarClosetPuestasZapatos(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasAccesorios(){
-    Closet->ordenarPuestas(0, "Accesorio");
-    Closet->ordenarPuestas(1, "Accesorio");
-    Closet->ordenarPuestas(2, "Accesorio");
-    Closet->ordenarPuestas(3, "Accesorio");
-    Closet->ordenarPuestas(4, "Accesorio");
-    Closet->ordenarPuestas(5, "Accesorio");
-    Closet->ordenarPuestas(6, "Accesorio");
-    Closet->ordenarPuestas(7, "Accesorio");
-    Closet->ordenarPuestas(8, "Accesorio");
-    Closet->ordenarPuestas(9, "Accesorio");
-    Closet->ordenarPuestas(10, "Accesorio");
-    Closet->ordenarPuestas(11, "Accesorio");
-    Closet->ordenarPuestas(12, "Accesorio");
-    Closet->ordenarPuestas(13, "Accesorio");
-    Closet->ordenarPuestas(14, "Accesorio");
-    Closet->ordenarPuestas(15, "Accesorio");
-    Closet->ordenarPuestas(16, "Accesorio");
-    Closet->ordenarPuestas(17, "Accesorio");
-    Closet->ordenarPuestas(18, "Accesorio");
-    Closet->ordenarPuestas(19, "Accesorio");
+    Closet->ordenarPuestas("Accesorio");
 }
 
 /**
@@ -643,7 +608,7 @@ void ClosetLavadora::ordenarClosetPuestasAccesorios(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasRopaInterior(){
-    Closet->ordenarPuestas(0, "Ropa interior");
+    Closet->ordenarPuestas("Ropa interior");
 }
 
 /**
@@ -659,7 +624,7 @@ void ClosetLavadora::ordenarClosetPuestasRopaInterior(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasCalcetines(){
-    Closet->ordenarPuestas(0, "Calcetines");
+    Closet->ordenarPuestas("Calcetines");
 }
 
 
@@ -859,7 +824,7 @@ void ClosetLavadora::actualizaArchivo(DLL* DLL){
     if (DLL == Closet){
         archivoSalida.open("Closeet.csv");
     } else if (DLL == Tienda){
-        archivoSalida.open("Tienda.csv");
+        archivoSalida.open("Tiendita.csv");
     } else {
         cerr << "Error: DLL no reconocido." << endl;
         return;
@@ -869,7 +834,7 @@ void ClosetLavadora::actualizaArchivo(DLL* DLL){
         return;
     }
     //recorremos el DLL, y vamos escribiendo los datos de cada prenda en el archivo
-    for (int i = 0; i < DLL->getSize(); i++) {
+    for (int i = 0; i < DLL->size; i++) {
         PrendaRopa prenda = (DLL->search(i+1))->getData();
         archivoSalida << prenda.getNombre() << ","
                       << prenda.getTipo() << ","

@@ -145,7 +145,7 @@ class DLL{
         void filtrarTalla(string _query);
         void filtrarMaterial(string _query);
         void filtrarEstado(string _query);
-        void ordenarPuestas(int _p, string _tipo);
+        void ordenarPuestas(string _tipo);
         DLink* search(int _id);
         void reasignarID();
         friend class ClosetLavadora;
@@ -344,16 +344,23 @@ void DLL::filtrarEstado(string _query){
 }
 
 //ordenarPuestas
+//planteamos la función, obteniendo todas ls prendas de un tipo en especifico, que se recibe como parámetro, y haciendo uso de la función sort de la librería algorithm
+//para ordenar las prendas de ese tipo por el número de puestas que tienen
 
-void DLL::ordenarPuestas(int _p, string _tipo){
+void DLL::ordenarPuestas(string _tipo){
+    vector<PrendaRopa> prendas;
     DLink* tmp = head;
     while(tmp != NULL){
         if (tmp->getData().getTipo() == _tipo){
-            if (tmp->getData().getPuestas() > _p){
-                cout << tmp->getData().mostrarDatos() << endl;
-            }
+            prendas.push_back(tmp->getData());
         }
         tmp = tmp->getNext();
+    }
+    sort(prendas.begin(), prendas.end(), [](const PrendaRopa& lhs, const PrendaRopa& rhs) {
+        return lhs.getPuestass() < rhs.getPuestass();
+    });
+    for (int i = 0; i < prendas.size(); i++){
+        cout << prendas[i].mostrarDatos() << endl;
     }
 }
 
