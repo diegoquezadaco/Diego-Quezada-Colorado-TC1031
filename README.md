@@ -15,7 +15,7 @@ Sin embargo, aunque en su caso promedio tiene una complejidad de Θ(n log (n)), 
 
 ### Hace un análisis de complejidad correcto y completo todas las estructuras de datos y cada uno de sus usos en el programa.
 
-Respecto a la estructura de datos, hago uso de un árbol BST, que según su análisis de tiempos asintóticos que en promedio tienden a ser Θ(n log (n)), lo que significa que reducen exponencialmente debido en este caso a la estructura estable de un árbol, y teniendo sus peores casos con un tiempo asintótico de  O(n). Esta estructura, se encuentra declarada en el archivo Arbol.h, los nodos a partir de la línea 28 y la estructura principal del árbol como tal a partir de la línea 377 del mismo archivo. 
+Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que según su análisis de tiempos asintóticos que en promedio tienden a ser Θ(n log (n)), lo que significa que reducen exponencialmente debido en este caso a la estructura estable de un árbol, y teniendo sus peores casos con un tiempo asintótico de  O(n). Esta estructura, se encuentra declarada en el archivo Arbol.h, los nodos a partir de la línea 28 y la estructura principal del árbol como tal a partir de la línea 377 del mismo archivo. 
 
 #### Análisis de los usos de dicha estructura:
 
