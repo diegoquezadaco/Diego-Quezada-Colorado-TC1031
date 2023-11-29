@@ -5,6 +5,8 @@
 
 El objetivo de este proyecto es modelar el funcionamiento de una idea que podría ser útil para nuestras generaciones futuras. Con el uso de la IA y su incorporación cada vez más cercana con nuestra vida diaria, se propone este proyecto que nos ayudaría en el ámbito personal. Lo que hace este Closet-Lavadora inteligente es tener un sistema lleva un control de las prendas de ropa que usas (playeras, pantalones, zapatos, accesorios, etc.) y de su uso y en base al mismo uso las lava y las vuleve a poner. Asímismo es posible adquirir más prendas y desechar las que ya no quieras. Y también te permite filtrat tu closet por tipo de prenda, color, material, veces de uso y talla.
 
+El programa empieza con un closet predeterminado con 99 prendas diferentes, cada una con atributos propios de una prend de ropa, como lo son tipo (playera, pantalón, etc), color, talla, material, adicionalmente, para la funcionalidad del Closet-Lavadora, le fueron añadidos parámetros como estado, que puede ser Limpia o Lavando, un número de puestas o veces que la prenda ha sido usada desde su última lavada, y un ID que sirve para identificar todas las prendas entre sí. Así mismo existe una Tienda con prendas predeterminadas con 
+
 ## SICT0301: Evalúa los componentes
 ### Hace un análisis de complejidad correcto y completo para los algoritmos de ordenamiento usados en el programa.
 
