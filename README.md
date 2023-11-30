@@ -27,7 +27,7 @@ Sin embargo, aunque en su caso promedio tiene una complejidad de Θ(n log (n)), 
 
 ### Hace un análisis de complejidad correcto y completo todas las estructuras de datos y cada uno de sus usos en el programa.
 
-Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que según su análisis de tiempos asintóticos en promedio tiene Θ(n) para acceso y búsqueda, y Θ(1), para inserción y eliminación y para sus peores casos es de igual manera O(n) para acceso y búsqueda y O(1) para inserción y eliminación, teniendo una complejidad espacial de O(n)
+Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que según su análisis de tiempos asintóticos en promedio tiene Θ(n) para acceso y búsqueda, y Θ(1), para inserción y eliminación y para sus peores casos es de igual manera O(n) para acceso y búsqueda y O(1) para inserción y eliminación, teniendo una complejidad espacial de O(n). Esta estructura está declarada en el archivo "DLL.h", donde cada uno de los nodos son elementos de tipo DLink, cuya declaración está en el mismo archivo a partir de la línea 30 y hasta la 141, y la estructura que administra dichos "nodos" es precisamente la Doubly Linked List, cuya declaración va desde la línea 144 hasta la 539.
 
 #### Análisis de los usos de dicha estructura:
 
