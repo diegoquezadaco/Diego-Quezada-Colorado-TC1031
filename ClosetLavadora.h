@@ -8,9 +8,8 @@
  * Clase ClosetLavadora
  * Esta es la clase que contiene las prendas de ropa
  * Sera compuesta por objetos de la clase PrendaRopa
- * Estará basado en la funcionalidad original de ClosetLavadora_borrador.h
- * sin emabrgo, ahora utilizará un DLL DLL para almacenar las prendas, en lugar de un arreglo
- * pero implementará el DLL como una clase
+ * Utiliza la estructura de datos DLL, que es una lista doblemente ligada
+ * Para crear el closet y la tienda que almacenarán las prendas
  * 
 */
 
@@ -28,27 +27,23 @@
 
 using namespace std;
 
-//Clase ClosetLavadora
 class ClosetLavadora {
     private:
-    //Declaro las variables de instancia
+
     int num_prendas=0;
     DLL *Tienda;
     int num_prendas_tienda=0;
     DLL *Closet;
+
     public:
-    //Declaro los metodos de clase
 
     DLL* getCloset();
     DLL* getTienda();
     ClosetLavadora();
-    ClosetLavadora(string _s);
     void setNumPrendas();
     void setNumPrendasTienda();
     int getNumPrendas();
     int getNumPrendasTienda();
-
-    //Metodos para interactuar con las prendas
     void crearPrenda(string _nombre, string _tipo, string _color, string _talla, 
                 string _material, string _estado, int _puestas, int _id);
     int limpias();
@@ -92,25 +87,6 @@ ClosetLavadora::ClosetLavadora(){
     setNumPrendasTienda();
 }
 
-/**
- * Constructor
- * Este metodo inicializa las variables de instancia
- * 
- * @param string _s
- * @return
- * 
- */
-
-ClosetLavadora::ClosetLavadora(string _s){
-    //setNumPrendas();
-    //setNumPrendasTienda();
-    Closet = new DLL;
-    setNumPrendas();
-
-
-}
-
-//getCloset
 
 /**
  * getCloset
@@ -141,10 +117,8 @@ DLL* ClosetLavadora::getTienda(){
 
 /**
  * setNumPrendas
- * Este metodo inicializa el numero de prendas en el closet, recorriendo el
- * DLL, nodo por nodo y contando el numero total de nodos en el DLL, en este caso
- * partiendo desde la raiz, y asigna ese valor a la variable de instancia
- * num_prendas, checando si el value de cada nodo es diferente de nullptr
+ * Este metodo inicializa el numero de prendas en el closet, haciendo uso de
+ * el parametro de la clase DLL size, que nos regresa el numero de nodos en el DLL
  * 
  * 
  * @param
@@ -166,10 +140,8 @@ void ClosetLavadora::setNumPrendas(){
 
 /**
  * setNumPrendasTienda
- * Este metodo inicializa el numero de prendas en la tienda, recorriendo el
- * DLL con un fory contando el numero total de nodos, en este caso 
- * del árbol de la tienda y asigna ese valor a la variable de instancia 
- * num_prendas_tienda
+ * Este metodo inicializa el numero de prendas en la tienda, haciendo uso de
+ * el parametro de la clase DLL size, que nos regresa el numero de nodos en el DLL
  * 
  * 
  * @param
@@ -178,7 +150,6 @@ void ClosetLavadora::setNumPrendas(){
  */
 
 void ClosetLavadora::setNumPrendasTienda(){
-    //nos apoyamos de la función de DLL de contar_prendas para contar el numero de prendas en la tienda
     if (Tienda->getHead() != nullptr){
         num_prendas_tienda = Tienda->size;
     } else {
@@ -212,7 +183,7 @@ int ClosetLavadora::getNumPrendasTienda(){
 
 /**
  * crearPrenda
- * Este metodo agrega una prenda al closet, creando un objeto de la clase PrendaRopa
+ * Este metodo agrega una prenda, creando un objeto de la clase PrendaRopa
  * y agregandolo al DLL del closet o de la tienda, dependiendo de si se trata de una
  * prenda nueva o de una prenda comprada, obtiene la información de esta prenda
  * por medio de un archivo csv
@@ -266,8 +237,6 @@ int ClosetLavadora::limpias(){
  * Este metodo regresa el numero de prendas en el closet que estan lavandose
  * recorre todas las prendas del DLL de closet y cuenta las que estan lavandose
  * con un for que busca en el DLL con la funcion search de la clase DLL
- * y después cambia el estado de las prendas que estan lavandose a "Limpias"
- * 
  * 
  * 
  * @param
@@ -282,16 +251,10 @@ int ClosetLavadora::lavando(){
         DLink* nodo = Closet->search(j);
         if (nodo != nullptr && nodo->getData().getEstado() == "Lavando"){
             num++;
-            Closet->search(j)->getData().setEstado("Limpia");
         }
     }
     return num;
 }
-
-
-
-
-
 
 /**
  * consultarCloset
@@ -323,7 +286,12 @@ void ClosetLavadora::consultarCloset(){
 
 /**
  * usarPrenda
- * Este metodo cambia el estado de una prenda de "limpia" a "usada"
+ * Este metodo cambia el numero de puestas de una prenda y si es necesario
+ * cambia el estado de la prenda a lavando, si la prenda ya se esta lavando
+ * el metodo le indica al usuario que la prenda ya se esta lavando y que la próxima
+ * vez que desee usar la prenda ya estará limpia, el método además verifica que la prenda
+ * que se desea usar esté en el closet y acomoda nuevamente el DLL
+ * con los métodos del archivo DLL.h
  * recorre todas las prendas del DLL de closet y cambia el estado de la prenda
  * que se le indique, usando ek método search de la clase DLL
  * 
@@ -387,7 +355,7 @@ void ClosetLavadora::usarPrenda(int _id){
  * comprarPrenda
  * Este método le permite al usuario comprar una prenda del DLL de tienda
  * y agregarla al DLL de closet, el método además verifica que la prenda
- * que se desea comprar esté en la tienda y acomoda nuevamente el DLL DLL
+ * que se desea comprar esté en la tienda y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * 
  * @param int _id
@@ -404,6 +372,7 @@ void ClosetLavadora::comprarPrenda(int _id){
         setNumPrendas();
         setNumPrendasTienda();
         Closet->reasignarID();
+        Tienda->reasignarID();
     } else {
         cout << "No se encontró la prenda en la tienda" << endl;
     }
@@ -413,15 +382,13 @@ void ClosetLavadora::comprarPrenda(int _id){
  * desecharPrenda
  * Este método le permite al usuario desechar una prenda del DLL de closet
  * y eliminarla del DLL, el método además verifica que la prenda
- * que se desea desechar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea desechar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * 
  * @param int _id
  * @return
 */
 
-//creamos desechar prenda, que elimina una prenda del closet
-//hacemos uso de la nueva implementacion de DLL
 
 void ClosetLavadora::desecharPrenda(int _id){
     DLink* nodo = Closet->search(_id);
@@ -439,7 +406,7 @@ void ClosetLavadora::desecharPrenda(int _id){
  * filtrarClosetTipo
  * Este método le permite al usuario filtrar las prendas del closet por tipo
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea filtrar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea filtrar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de filtrar Tipo de la clase DLL
  * 
@@ -448,14 +415,17 @@ void ClosetLavadora::desecharPrenda(int _id){
 */
 
 void ClosetLavadora::filtrarClosetTipo(string _tipo){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->filtrarTipo(_tipo);
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * filtrarClosetColor
  * Este método le permite al usuario filtrar las prendas del closet por color
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea filtrar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea filtrar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de filtrar Color de la clase DLL
  * 
@@ -464,14 +434,17 @@ void ClosetLavadora::filtrarClosetTipo(string _tipo){
 */
 
 void ClosetLavadora::filtrarClosetColor(string _color){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->filtrarColor(_color);
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * filtrarClosetTalla
  * Este método le permite al usuario filtrar las prendas del closet por talla
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea filtrar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea filtrar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de filtrar Talla de la clase DLL
  * 
@@ -480,14 +453,17 @@ void ClosetLavadora::filtrarClosetColor(string _color){
 */
 
 void ClosetLavadora::filtrarClosetTalla(string _talla){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->filtrarTalla(_talla);
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * filtrarClosetMaterial
  * Este método le permite al usuario filtrar las prendas del closet por material
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea filtrar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea filtrar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de filtrar Material de la clase DLL
  * 
@@ -496,14 +472,17 @@ void ClosetLavadora::filtrarClosetTalla(string _talla){
 */
 
 void ClosetLavadora::filtrarClosetMaterial(string _material){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->filtrarMaterial(_material);
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * filtrarClosetEstado
  * Este método le permite al usuario filtrar las prendas del closet por estado
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea filtrar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea filtrar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de filtrar Estado de la clase DLL
  * 
@@ -512,14 +491,17 @@ void ClosetLavadora::filtrarClosetMaterial(string _material){
 */
 
 void ClosetLavadora::filtrarClosetEstado(string _estado){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->filtrarEstado(_estado);
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * ordenarClosetPuestasPlayeras
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de ordenar Puestas de la clase DLL
  * 
@@ -528,14 +510,17 @@ void ClosetLavadora::filtrarClosetEstado(string _estado){
 */
 
 void ClosetLavadora::ordenarClosetPuestasPlayeras(){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->ordenarPuestas("Playera ");
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * ordenarClosetPuestasPantalones
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de ordenar Puestas de la clase DLL
  * 
@@ -544,14 +529,17 @@ void ClosetLavadora::ordenarClosetPuestasPlayeras(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasPantalones(){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->ordenarPuestas("Pantalon");
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * ordenarClosetPuestasChamarras
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de ordenar Puestas de la clase DLL
  * 
@@ -560,14 +548,17 @@ void ClosetLavadora::ordenarClosetPuestasPantalones(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasChamarras(){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->ordenarPuestas("Chamarra");
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * ordenarClosetPuestasZapatos
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de ordenar Puestas de la clase DLL
  * 
@@ -576,14 +567,17 @@ void ClosetLavadora::ordenarClosetPuestasChamarras(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasZapatos(){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->ordenarPuestas("Zapatos ");
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * ordenarClosetPuestasAccesorios
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de ordenar Puestas de la clase DLL
  * 
@@ -592,14 +586,17 @@ void ClosetLavadora::ordenarClosetPuestasZapatos(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasAccesorios(){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->ordenarPuestas("Accesorio");
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * ordenarClosetPuestasRopaInterior
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
+ * que se desea ordenar esté en el closet y acomoda nuevamente el DLL
  * con los métodos del archivo DLL.h
  * usa el metodo de ordenar Puestas de la clase DLL
  * 
@@ -608,15 +605,17 @@ void ClosetLavadora::ordenarClosetPuestasAccesorios(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasRopaInterior(){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->ordenarPuestas("Ropa interior");
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 /**
  * ordenarClosetPuestasCalcetines
  * Este método le permite al usuario ordenar las prendas del closet por numero de puestas
  * y mostrarlas en pantalla, el método además verifica que la prenda
- * que se desea ordenar esté en el closet y acomoda nuevamente el DLL DLL
- * con los métodos del archivo DLL.h
+ * que se desea ordenar esté en el closet 
  * usa el metodo de ordenar Puestas de la clase DLL
  * 
  * @param
@@ -624,17 +623,22 @@ void ClosetLavadora::ordenarClosetPuestasRopaInterior(){
 */
 
 void ClosetLavadora::ordenarClosetPuestasCalcetines(){
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
+    cout << "ID" << "\t" << "Nombre" << "\t" << "\t" << "\t" <<"Tipo" << "\t" << "\t"<< "Color" << "\t" << "Talla" << "\t" << "Material" << "\t" << "Estado" << "\t" << "Puestas" << endl;
     Closet->ordenarPuestas("Calcetines");
+    cout << "------------------------------------------------------------------------------------------------"<< endl;
 }
 
 
 /**
  * creacloset
  * 
- * función encargada de importar todos los datos de un archivo .csv "Closeet.csv" donde puede obtener 
- * datos acerca de las prendas, cada renglon son los datos de una prenda diferente, 
- * en el orden id, nombre, tipo, color, talla, material, estado, puestas
- * importa estos datos y crea objetos de tipo PrendaRopa con estos datos, y los agrega al DLL
+ * función encargada de importar todos los datos de un archivo .csv 
+ * "Closeet.csv" donde puede obtener 
+ * datos acerca de las prendas, cada renglon son los datos de una prenda
+ * diferente, en el orden id, nombre, tipo, color, talla, material, estado,
+ * puestas importa estos datos y crea objetos de tipo PrendaRopa con estos 
+ * datos, y los agrega al DLL
 */
 
 void ClosetLavadora::creaCloset(){
@@ -793,28 +797,12 @@ void ClosetLavadora::creaTienda(){
 
 /**
  * actualizaArchivo
- * funcióon auxiliar que ayuda a que todos los cambios que se realicen en el DLL, se actualice inmediataente en el archivo csv
+ * función auxiliar que ayuda a que todos los cambios que se realicen en el DLL, se actualice inmediataente en el archivo csv
  * en el archivo Closet.csv o Tienda.csv, dependiendo de si se trata de un cambio en el DLL de closet o de tienda
  * esto se especificará en el argumento que reciba, y básicamente lo que hace es importar los datos del DLL, por el orden impuesto por 
  * los IDs de las prendas, y sobreescribir el archivo csv con estos datos
  * no crea prendas nuevas, y sobreescribe el archivo en el formato que se especifica en el método
  * creaTienda, de la manera en que se importan los datos, nombre, tipo, color, talla, material, estado, puestas, id
- * debería hacer algo parecido a esto
- * ofstream archivoSalida("residentes.csv");
-    if (!archivoSalida) {
-        cerr << "No se pudo abrir el archivo de salida." << endl;
-        return 0;
-    }
-
-    for (int i = 0; i < residentesVector.size(); i++) {
-        Residente *residente = residentesVector[i];
-        archivoSalida << residente->getNumCasa() << ","
-                      << residente->getPropietario() << ","
-                      << residente->getContacto() << ","
-                      << residente->getSaldoAPagar() << endl;
-    }
-
-    archivoSalida.close();
  * 
 */
 
@@ -833,7 +821,6 @@ void ClosetLavadora::actualizaArchivo(DLL* DLL){
         cerr << "No se pudo abrir el archivo de salida." << endl;
         return;
     }
-    //recorremos el DLL, y vamos escribiendo los datos de cada prenda en el archivo
     for (int i = 0; i < DLL->size; i++) {
         PrendaRopa prenda = (DLL->search(i+1))->getData();
         archivoSalida << prenda.getNombre() << ","
@@ -847,23 +834,6 @@ void ClosetLavadora::actualizaArchivo(DLL* DLL){
     }
     archivoSalida.close();
 }
-
-
-
-
-
-
-
-
-
-        
-
-
-                           
-
-        
-        
-
 
 
 

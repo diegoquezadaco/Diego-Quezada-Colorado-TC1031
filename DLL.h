@@ -5,45 +5,12 @@
  * 15/10/2023 
 */
 /**
- * @file DLL.h
- * @version 1.0
- * @date 15/10/2023
- * @title DLL
- * @brief Clase DLL
- * @code
+ * Clase PrendaRopa
+ * Esta es la clase que define la estructura de datos
+ * donde se guardaran las prendas de ropa, es una lista doblemente ligada
  * 
-*/
-//DLL stands for Doubly Linked List
-/**
- * this will be the class that defines the structure of ClosetLavadora
- * should contain the same functions as the specified in the file Arbol.h
- * so the rest of the code can work without any changes
  * 
- * so it should contain the following functions:
- *  bool empty() const;
-    void add(PrendaRopa);
-    bool find(PrendaRopa) const;
-    void remove(PrendaRopa);
-    void removeAll();
-    string inorder() const;
-    string preorder() const;
-    string mostrarDatos();
-    void filtrarTipo(string _query);
-    void filtrarColor(string _query);
-    void filtrarTalla(string _query);
-    void filtrarMaterial(string _query);
-    void filtrarEstado(string _query);
-    void ordenarPuestas(int _p, string _tipo);
-    int contar_prendas();
-    Nodo* search(int _id);
-    void reasignarID();
-    friend class ClosetLavadora;
-*/
-
-// };
-
-//it is not going to have template <class T> because it is going to be a list of PrendaRopa
-//Dlink is going to be the node of the list
+ */
 
 #ifndef DLL_H_
 #define DLL_H_
@@ -78,10 +45,22 @@ class DLink{
         friend class DLL;
 };
 
+/**
+ * Constructor default
+ * @param
+ * @return 
+*/
+
 DLink::DLink(){
     next = NULL;
     prev = NULL;
 }
+
+/**
+ * Constructor con parámetros
+ * @param PrendaRopa val
+ * @return 
+*/
 
 DLink::DLink(PrendaRopa val){
     value = val;
@@ -89,31 +68,73 @@ DLink::DLink(PrendaRopa val){
     prev = NULL;
 }
 
+/**
+ * Constructor con parámetros
+ * @param PrendaRopa val, DLink* nxt, DLink* prv
+ * @return 
+*/
+
 DLink::DLink(PrendaRopa val, DLink* nxt, DLink* prv){
     value = val;
     next = nxt;
     prev = prv;
 }
 
+/**
+ * getData
+ * @param
+ * @return PrendaRopa value
+*/
+
 PrendaRopa DLink::getData() {
     return value;
 }
+
+/**
+ * setData
+ * @param PrendaRopa val
+ * @return 
+*/
 
 void DLink::setData(PrendaRopa val){
     value = val;
 }
 
+/**
+ * getNext
+ * @param
+ * @return DLink* next
+*/
+
 DLink* DLink::getNext() const{
     return next;
 }
+
+/**
+ * setNext
+ * @param DLink* nxt
+ * @return 
+*/
 
 void DLink::setNext(DLink* nxt){
     next = nxt;
 }
 
+/**
+ * getPrev
+ * @param
+ * @return DLink* prev
+*/
+
 DLink* DLink::getPrev() const{
     return prev;
 }
+
+/**
+ * setPrev
+ * @param DLink* prv
+ * @return 
+*/
 
 void DLink::setPrev(DLink* prv){
     prev = prv;
@@ -151,11 +172,23 @@ class DLL{
         friend class ClosetLavadora;
 };
 
+/**
+ * Constructor default
+ * @param
+ * @return 
+*/
+
 DLL::DLL(){
     head = NULL;
     tail = NULL;
     size = 0;
 }
+
+/**
+ * Constructor copia
+ * @param DLL dll
+ * @return 
+*/
 
 DLL::DLL(const DLL& dll){
     head = dll.head;
@@ -163,25 +196,62 @@ DLL::DLL(const DLL& dll){
     size = dll.size;
 }
 
+/**
+ * Destructor
+ * @param
+ * @return 
+*/
+
 DLL::~DLL(){
     removeAll();
 }
+
+/**
+ * getHead
+ * @param
+ * @return DLink* head
+*/
 
 DLink* DLL::getHead() const{
     return head;
 }
 
+/**
+ * getTail
+ * @param
+ * @return DLink* tail
+*/
+
 DLink* DLL::getTail() const{
     return tail;
 }
+
+/**
+ * getSize
+ * @param
+ * @return int size
+*/
 
 int DLL::getSize() const{
     return size;
 }
 
+/**
+ * empty
+ * @param
+ * @return bool
+*/
+
 bool DLL::empty() const{
     return (head == NULL && tail == NULL);
 }
+
+/**
+ * add
+ * Este metodo agrega una prenda al final de la lista
+ * @param PrendaRopa val
+ * @return
+*/
 
 void DLL::add(PrendaRopa val){
     DLink* newLink = new DLink(val);
@@ -196,6 +266,13 @@ void DLL::add(PrendaRopa val){
     size++;
 }
 
+/**
+ * find
+ * Este metodo busca una prenda en la lista y regresa un bool
+ * @param PrendaRopa val
+ * @return bool
+*/
+
 bool DLL::find(PrendaRopa val) const{
     DLink* tmp = head;
     while(tmp != NULL){
@@ -206,6 +283,13 @@ bool DLL::find(PrendaRopa val) const{
     }
     return false;
 }
+
+/**
+ * remove
+ * Este metodo elimina una prenda de la lista
+ * @param PrendaRopa val
+ * @return
+*/
 
 void DLL::remove(PrendaRopa val){
     DLink* tmp = head;
@@ -230,6 +314,13 @@ void DLL::remove(PrendaRopa val){
     throw NoSuchElement();
 }
 
+/**
+ * removeAll
+ * Este metodo elimina todas las prendas de la lista
+ * @param
+ * @return
+*/
+
 void DLL::removeAll(){
     DLink* tmp = head;
     while(tmp != NULL){
@@ -242,6 +333,13 @@ void DLL::removeAll(){
     size = 0;
 }
 
+/**
+ * inorder
+ * Este metodo regresa un string con los ids de las prendas en orden ascendente
+ * @param
+ * @return string
+*/
+
 string DLL::inorder() const{
     stringstream aux;
     DLink* tmp = head;
@@ -251,6 +349,13 @@ string DLL::inorder() const{
     }
     return aux.str();
 }
+
+/**
+ * preorder
+ * Este metodo regresa un string con los ids de las prendas en orden descendente
+ * @param
+ * @return string
+*/
 
 string DLL::preorder() const{
     stringstream aux;
@@ -262,8 +367,12 @@ string DLL::preorder() const{
     return aux.str();
 }
 
-//mostarDatos
-//se apoya de la función mostrarDatos de PrendaRopa
+/**
+ * mostrarDatos
+ * Este metodo regresa un string con los datos de todas las prendas
+ * @param
+ * @return string
+*/
 
 string DLL::mostrarDatos(){
     stringstream aux;
@@ -275,14 +384,12 @@ string DLL::mostrarDatos(){
     return aux.str();
 }
 
-//filtrarTipo
-//se apoya de la función getTipo de PrendaRopa
-
-//debería tener una linea asi:
-/**
- * if (value.getTipo() == _query){
-        cout << value.mostrarDatos() << endl;
-    }
+/*
+ *filtrarTipo
+    *Este metodo recibe un string con el tipo de prenda que se quiere filtrar 
+    *e imprime los datos de las prendas que coinciden con ese tipo
+* @param string _query
+* @return 
 */
 
 void DLL::filtrarTipo(string _query){
@@ -295,7 +402,13 @@ void DLL::filtrarTipo(string _query){
     }
 }
 
-//filtrarColor
+/**
+ * filtrarColor
+ * Este metodo recibe un string con el color de prenda que se quiere filtrar
+ * e imprime los datos de las prendas que coinciden con ese color
+ * @param string _query
+ * @return 
+*/
 
 void DLL::filtrarColor(string _query){
     DLink* tmp = head;
@@ -307,7 +420,13 @@ void DLL::filtrarColor(string _query){
     }
 }
 
-//filtrarTalla
+/**
+ * filtrarTalla
+ * Este metodo recibe un string con la talla de prenda que se quiere filtrar
+ * e imprime los datos de las prendas que coinciden con esa talla
+ * @param string _query
+ * @return 
+*/
 
 void DLL::filtrarTalla(string _query){
     DLink* tmp = head;
@@ -319,7 +438,13 @@ void DLL::filtrarTalla(string _query){
     }
 }
 
-//filtrarMaterial
+/**
+ * filtrarMaterial
+ * Este metodo recibe un string con el material de prenda que se quiere filtrar
+ * e imprime los datos de las prendas que coinciden con ese material
+ * @param string _query
+ * @return 
+*/
 
 void DLL::filtrarMaterial(string _query){
     DLink* tmp = head;
@@ -331,7 +456,13 @@ void DLL::filtrarMaterial(string _query){
     }
 }
 
-//filtrarEstado
+/**
+ * filtrarEstado
+ * Este metodo recibe un string con el estado de prenda que se quiere filtrar
+ * e imprime los datos de las prendas que coinciden con ese estado
+ * @param string _query
+ * @return 
+*/
 
 void DLL::filtrarEstado(string _query){
     DLink* tmp = head;
@@ -343,9 +474,16 @@ void DLL::filtrarEstado(string _query){
     }
 }
 
-//ordenarPuestas
-//planteamos la función, obteniendo todas ls prendas de un tipo en especifico, que se recibe como parámetro, y haciendo uso de la función sort de la librería algorithm
-//para ordenar las prendas de ese tipo por el número de puestas que tienen
+/**
+ * ordenarPuestas
+ * Este metodo recibe un string con el tipo de prenda que se quiere ordenar
+ * e imprime los datos de las prendas que coinciden con ese tipo ordenadas por numero de puestas
+ * en orden ascendente, con ayuda de la funcion sort de la libreria algorithm
+ * @param string _tipo
+ * @return 
+*/
+
+
 
 void DLL::ordenarPuestas(string _tipo){
     vector<PrendaRopa> prendas;
@@ -364,7 +502,13 @@ void DLL::ordenarPuestas(string _tipo){
     }
 }
 
-//search
+/**
+ * search
+ * Este metodo recibe un int con el id de la prenda que se quiere buscar
+ * y regresa un apuntador a la prenda que coincide con ese id
+ * @param int _id
+ * @return DLink*
+*/
 
 DLink* DLL::search(int _id){
     DLink* tmp = head;
@@ -377,7 +521,12 @@ DLink* DLL::search(int _id){
     throw NoSuchElement();
 }
 
-//reasignarID
+/**
+ * reasignarID
+ * Este metodo reasigna los ids de las prendas en orden ascendente
+ * @param
+ * @return 
+*/
 
 void DLL::reasignarID(){
     DLink* tmp = head;

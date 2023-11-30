@@ -53,7 +53,6 @@ class PrendaRopa {
     string mostrarDatos();
     PrendaRopa(string _nombre, string _tipo, string _color, string _talla, 
                 string _material, string _estado, int _puestas, int _id);
-    //creamos un constructor que reciba como prámetro un Node que apunte a una variable de tipo PrendaRopa
     PrendaRopa(int id) : id(id) {}
     PrendaRopa() {}
     bool operator==(const PrendaRopa& p) {
