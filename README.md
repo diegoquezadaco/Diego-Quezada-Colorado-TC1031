@@ -5,19 +5,29 @@
 
 El objetivo de este proyecto es modelar el funcionamiento de una idea que podría ser útil para nuestras generaciones futuras. Con el uso de la IA y su incorporación cada vez más cercana con nuestra vida diaria, se propone este proyecto que nos ayudaría en el ámbito personal. Lo que hace este Closet-Lavadora inteligente es tener un sistema lleva un control de las prendas de ropa que usas (playeras, pantalones, zapatos, accesorios, etc.) y de su uso y en base al mismo uso las lava y las vuleve a poner. Asímismo es posible adquirir más prendas y desechar las que ya no quieras. Y también te permite filtrat tu closet por tipo de prenda, color, material, veces de uso y talla.
 
-El programa empieza con un closet predeterminado con 99 prendas diferentes, cada una con atributos propios de una prend de ropa, como lo son tipo (playera, pantalón, etc), color, talla, material, adicionalmente, para la funcionalidad del Closet-Lavadora, le fueron añadidos parámetros como estado, que puede ser Limpia o Lavando, un número de puestas o veces que la prenda ha sido usada desde su última lavada, y un ID que sirve para identificar todas las prendas entre sí. Así mismo existe una Tienda con prendas predeterminadas con 
+El programa empieza con un closet predeterminado con 99 prendas diferentes, cada una con atributos propios de una prend de ropa, como lo son tipo (playera, pantalón, etc), color, talla, material, adicionalmente, para la funcionalidad del Closet-Lavadora, le fueron añadidos parámetros como estado, que puede ser Limpia o Lavando, un número de puestas o veces que la prenda ha sido usada desde su última lavada, y un ID que sirve para identificar todas las prendas entre sí. Así mismo existe una Tienda con prendas predeterminadas con 27 prendas, que te permiten aumentar tu arsenal de prendas.
+
+La dinámica del programa es simple, para poder interactuar con las prendas del closet y de la tienda, se tiene un menú, que es el siguiente:
+1. Consultar closet
+2. Filtrar closet
+3. Ordenar Closet por puestas
+4. Usar prenda (requiere ID)
+5. Comprar prenda
+6. Desechar prenda (requiere ID)
+
+Para interactuar con el menú simplemente se debe insertar alguno de los números brindados como opción, o en alguna de sus subopciones, como por ejemplo la 4 y la 6, ingresar números de ids de prendas que sí existen, de lo contrario, el programa termina después de arrojarte un error como por ejemplo NoSuchElement(), basados en el archivo de exceptions.h
 
 ## SICT0301: Evalúa los componentes
 ### Hace un análisis de complejidad correcto y completo para los algoritmos de ordenamiento usados en el programa.
 
-- Quicksort:  Al inicio, hice uso la función de sort, de la biblioteca de algorithm, que varía segun el caso, pero por lo general opta por usar el algoritmo de ordenamiento de Quicksort, que usa pivotes para ordenar parcialmente los arreglos, de tal manera que al final ordena arreglos mucho más ordenados que implica menos ciclos.
-Sin embargo, aunque en su caso promedio tiene una complejidad de Θ(n log (n)), en el peor de los casos tiene un tiempo asinótico de O(n^2). Y una complejidad de espacio de O(log(n))
+- Quicksort:  Hice uso la función de sort, de la biblioteca de algorithm, que varía segun el caso, pero por lo general opta por usar el algoritmo de ordenamiento de Quicksort, que usa pivotes para ordenar parcialmente los arreglos, de tal manera que al final ordena arreglos mucho más ordenados que implica menos ciclos.
+Sin embargo, aunque en su caso promedio tiene una complejidad de Θ(n log (n)), en el peor de los casos tiene un tiempo asinótico de O(n^2). Y una complejidad de espacio de O(log(n)). Es utilizado en todas las subopciones desplegadas al utilizar la opcion 3 del menú principal, que ordena el closet por puestas de menor a mayor, cuya lógica está especificada en la función ordenarPuestas, declarada en la línea 488 del archivo DLL.h
 
-- Busqueda Binaria: Con la implementación de la nueva estructura de datos, había que cambiar también el algoritmo principal de búsqueda, que en este caso es el de la búsqueda binaria. Eset algoritmo es altamente eficiente, en especial, por que reduce mucho los tiempos asíntóticos, al segmentar un poco la parte de la búsqueda, y mejora el algoritmo que teníamos antes en cuando a su caso promedio que es de complejidad Θ(log (n)), sin embargo, si nuestro programa llega a generar un árbol completamente degenerado, es decir, en su peor caso, tiene un tiempo asinótico de O(n), aún mejor que el de nuestro anterior algoritmo. Y una complejidad espacial de O(n)
+- Search: Con la implementación de la nueva estructura de datos, había que implementar también el algoritmo principal de búsqueda, que en este caso es la función search.  En el peor caso, el bucle while recorrerá toda la lista antes de encontrar el elemento o lanzar la excepción NoSuchElement. El tiempo de ejecución en el peor caso sería O(n). Esto significa que el tiempo de ejecución crece linealmente con el tamaño de la lista. Y tiene una complejidad espacial de O(n).
 
 ### Hace un análisis de complejidad correcto y completo todas las estructuras de datos y cada uno de sus usos en el programa.
 
-Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que según su análisis de tiempos asintóticos que en promedio tienden a ser Θ(n log (n)), lo que significa que reducen exponencialmente debido en este caso a la estructura estable de un árbol, y teniendo sus peores casos con un tiempo asintótico de  O(n). Esta estructura, se encuentra declarada en el archivo Arbol.h, los nodos a partir de la línea 28 y la estructura principal del árbol como tal a partir de la línea 377 del mismo archivo. 
+Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que según su análisis de tiempos asintóticos en promedio tiene Θ(n) para acceso y búsqueda, y Θ(1), para inserción y eliminación y para sus peores casos es de igual manera O(n) para acceso y búsqueda y O(1) para inserción y eliminación, teniendo una complejidad espacial
 
 #### Análisis de los usos de dicha estructura:
 
