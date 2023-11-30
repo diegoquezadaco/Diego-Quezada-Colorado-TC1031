@@ -99,23 +99,26 @@ Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que 
 ##### Hay métodos que no fueron mencionados en los anteriores, porque van más en cuanto a la administración de archivos, en cuanto a lectura y escritura de los mismos, así como también métodos que recorren la DLL de tienda y del closet para determinar el número de prendas limpias y las que se están lavando y están declarados en el archivo ClosetLavadora.h entre las líneas 222 y 257 y a partir de la línea 643
 
 - Función limpias:
+  - Complejidad de tiempo: O(n^2): La función realiza un bucle que recorre la lista de prendas (num_prendas) y en cada iteración realiza una búsqueda en la lista doblemente enlazada (Closet->search(j)). La búsqueda en la lista implica recorrer la lista enlazada, que tiene una complejidad de tiempo lineal O(n) en el peor caso. Dado que se realiza n veces en el bucle, la complejidad total es O(n^2).
+  - Complejidad de espacio: O(1): Se utilizan variables locales (i, num, j, nodo) que no dependen del tamaño de la entrada, por lo que la complejidad de espacio es constante.
 
-Complejidad de tiempo: O(n^2)
-La función realiza un bucle que recorre la lista de prendas (num_prendas) y en cada iteración realiza una búsqueda en la lista doblemente enlazada (Closet->search(j)).
-La búsqueda en la lista implica recorrer la lista enlazada, que tiene una complejidad de tiempo lineal O(n) en el peor caso. Dado que se realiza n veces en el bucle, la complejidad total es O(n^2).
-Complejidad de espacio: O(1)
-Se utilizan variables locales (i, num, j, nodo) que no dependen del tamaño de la entrada, por lo que la complejidad de espacio es constante.
-Función lavando:
+- Función lavando:
+  - Complejidad de tiempo: O(n^2): Similar a la función limpias, realiza un bucle que recorre la lista de prendas (num_prendas) y en cada iteración realiza una búsqueda en la lista doblemente enlazada (Closet->search(j)). La búsqueda en la lista implica recorrer la lista enlazada, que tiene una complejidad de tiempo lineal O(n) en el peor caso. Dado que se realiza n veces en el bucle, la complejidad total es O(n^2).
+  - Complejidad de espacio: O(1): Se utilizan variables locales (i, num, j, nodo) que no dependen del tamaño de la entrada, por lo que la complejidad de espacio es constante.
 
-Complejidad de tiempo: O(n^2)
-Similar a la función limpias, realiza un bucle que recorre la lista de prendas (num_prendas) y en cada iteración realiza una búsqueda en la lista doblemente enlazada (Closet->search(j)).
-La búsqueda en la lista implica recorrer la lista enlazada, que tiene una complejidad de tiempo lineal O(n) en el peor caso. Dado que se realiza n veces en el bucle, la complejidad total es O(n^2).
-Complejidad de espacio: O(1)
-Se utilizan variables locales (i, num, j, nodo) que no dependen del tamaño de la entrada, por lo que la complejidad de espacio es constante.
+- Métodos creaCloset y creaTienda:
+  - Complejidad de tiempo: O(n* m): Ambas funciones realizan primero un while con el que ingresan todas las líneas del archivo CSV correspondiente (n) al arreglo "prendas" creada previamente, y en ese while se modifica un parámetro "num" que en pocas palabras es como el lenght real del areglo prendas, es decir, el número de elementos del arreglo que realmente estan ocupados por líneas del archivo CSV. Posteriormente con ayuda de un for recorre cada uno de los elementos de este arreglo, que son líneas del archivo CSV (n), después, dentro de ese for, recorre cada elemento (m) de la línea del archivo en turno para obtener los elementos en orden y asignarlos a variables de apoyo para eventualmente crear un elemento de tipo Prenda ropa y agregarlo al DLL de Closet o Tienda según corresponda. Por lo tanto, la complejidad del tiempo es de O(n*m), donde n representa el número de líneas y m la longitud de cada línea. O bien podría ser representada como O(n^2).
+  - Complejidad de espacio: Como se mencionó anteriormente se crea un arreglo de prendas cuya longitud depende de si es Closet o es Tienda y del número de líneas en los archivos CSV (n), n que será el número de prendas, así que la complejidad espacial es de O(n).
+ 
+- Método actualizaArchivo:
+  - Complejidad de tiempo: O(n): La función comienza con una serie de operaciones de tiempo constante que no dependen del tamaño de la entrada (apertura de archivos, verificación de errores, etc.). Luego, hay un bucle for que itera sobre cada elemento en la lista enlazada (for (int i = 0; i < DLL->size; i++)). Cada iteración de este bucle realiza operaciones de tiempo constante para acceder a la prenda correspondiente, obtener sus atributos y escribirlos en el archivo de salida. Por lo tanto, la complejidad de tiempo es O(n), donde n es el tamaño de la Doubly Linked List DLL.
+  - Complejidad de espacio: O(1): Se utilizan variables locales y no se asigna memoria adicional en función del tamaño de la entrada. La complejidad de espacio es constante.
 
 
 #### Complejidad final del programa:
- Es posible conseguir que aunque se comience con un árbol no degenerado, existe la posibilidad de que haciendo uso de muchos de los métodos mencionados con anterioridad que modifican el árbol, en este caso, add y remove, para que el árbol quede completamente degenerado, lo que implicaría que el árbol ya no sería un árbol de búsqueda binaria como tal, sino más una Singly-Linked List, aunque sin la particularidad de la tail que esta tiene, por lo que para incersiones, eliminaciones y búsquedas, en el peor de los casos tenemos una complejidad temporal de O(n), teniendo que recorrer todos los nodos y su complejidad espacial sería nuevamente de O(n). En este caso, perdería toda la eficiencia que caracteriza al BST como tal.
+Analizando el que podría ser el pero caso del programa, y analizando los algoritmos 
+
+
 
 ## SICT0302: Toma decisiones
 
