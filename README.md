@@ -27,7 +27,7 @@ Sin embargo, aunque en su caso promedio tiene una complejidad de Θ(n log (n)), 
 
 ### Hace un análisis de complejidad correcto y completo todas las estructuras de datos y cada uno de sus usos en el programa.
 
-Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que según su análisis de tiempos asintóticos en promedio tiene Θ(n) para acceso y búsqueda, y Θ(1), para inserción y eliminación y para sus peores casos es de igual manera O(n) para acceso y búsqueda y O(1) para inserción y eliminación, teniendo una complejidad espacial
+Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que según su análisis de tiempos asintóticos en promedio tiene Θ(n) para acceso y búsqueda, y Θ(1), para inserción y eliminación y para sus peores casos es de igual manera O(n) para acceso y búsqueda y O(1) para inserción y eliminación, teniendo una complejidad espacial de O(n)
 
 #### Análisis de los usos de dicha estructura:
 
