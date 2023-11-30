@@ -31,134 +31,88 @@ Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que 
 
 #### Análisis de los usos de dicha estructura:
 
-- Constructor Arbol():
-Complejidad de tiempo: O(1)
-Complejidad de espacio: O(1)
-Justificación:
-La inicialización del árbol simplemente asigna el puntero root a nullptr. Esta operación es constante, independientemente del tamaño del árbol, por lo que tanto la complejidad de tiempo como la complejidad de espacio son O(1).
+- Constructor default DLL():
 
-- Destructor ~Arbol():
-Complejidad de tiempo: O(n)
-Complejidad de espacio: O(1)
-Justificación:
-El destructor invoca el método removeAll(), que elimina todos los nodos del árbol. La complejidad de tiempo de removeAll() es O(n), ya que tiene que visitar cada nodo del árbol para liberar la memoria.
-La complejidad de espacio es O(1) porque la eliminación de nodos se realiza en su lugar y no requiere espacio adicional en función del tamaño del árbol.
+  - Complejidad de tiempo: O(1)
+  - Complejidad de espacio: O(1)
+  - Justificación: La inicialización de head, tail y size se realiza en tiempo constante, independientemente del tamaño de la lista. No hay bucles ni operaciones que dependan del tamaño de la lista.
+
+- Constructor copia DLL(const DLL& dll):
+  - Complejidad de tiempo: O(n)
+  - Complejidad de espacio: O(1)
+  - Justificación: El constructor copia recorre todos los elementos de la lista enlazada dll para copiarlos en la nueva lista. La complejidad de tiempo es lineal respecto al número de elementos en la lista original. La complejidad de espacio es constante ya que no se utiliza memoria adicional en función del tamaño de la lista.
+   
+- Destructor ~DLL():
+  - Complejidad de tiempo: O(n)
+  - Complejidad de espacio: O(1)
+  - Justificación: El destructor invoca el método removeAll(), que elimina todos los nodos de la lista. La complejidad de tiempo es lineal, ya que cada nodo debe ser eliminado. La complejidad de espacio es constante ya que no se utiliza memoria adicional en función del tamaño de la lista.
+
+- Métodos getHead(), getTail(), getSize(), empty():
+  - Complejidad de tiempo: O(1)
+  - Complejidad de espacio: O(1)
+  - Justificación: Estos métodos realizan operaciones simples que no dependen del tamaño de la lista. Acceder al primer elemento, al último elemento, obtener el tamaño o verificar si la lista está vacía son operaciones de tiempo constante.
 
 - Método add(PrendaRopa val):
-Complejidad de tiempo: O(log(n))
-Complejidad de espacio: O(log(n))
-Justificación:
-El método add busca el valor val en el árbol antes de agregarlo para evitar duplicados. Si el árbol no está vacío (root != 0), invoca el método find que tiene una complejidad de tiempo de O(log(n)) en un árbol balanceado, ya que realiza una búsqueda binaria.
-Si el valor no se encuentra, entonces se llama al método add en el nodo raíz (root->add(val)). La inserción en un árbol binario de búsqueda balanceado tiene una complejidad de tiempo de O(log(n)) ya que implica recorrer el árbol hacia abajo a través de "sub-árboles" en función del valor.
-La complejidad de espacio también es O(log(n)) ya que la inserción y búsqueda se realizan de manera recursiva, creando una llamada de pila para cada nivel del árbol.
+  - Complejidad de tiempo: O(1)
+  - Complejidad de espacio: O(1)
+  - Justificación: La adición de un elemento al final de la lista enlazada doble se realiza en tiempo constante. No es necesario recorrer la lista, ya que se agrega al final.
 
 - Método find(PrendaRopa val) const:
-Complejidad de tiempo: O(log(n))
-Complejidad de espacio: O(1)
-Justificación:
-El método find busca el valor val en el árbol. Si el árbol no está vacío (root != 0), invoca el método find en el nodo raíz (root->find(val)).
-La búsqueda en un árbol binario de búsqueda balanceado tiene una complejidad de tiempo de O(log(n)), ya que en cada paso se reduce la búsqueda a la mitad del árbol.
-La complejidad de espacio es O(1), ya que no se utiliza memoria adicional en función del tamaño del árbol.
+  - Complejidad de tiempo: O(n)
+  - Complejidad de espacio: O(1)
+  - Justificación: Este método realiza una búsqueda lineal en la lista para encontrar el elemento. En el peor caso, debe recorrer toda la lista. La complejidad de espacio es constante ya que no se utiliza memoria adicional en función del tamaño de la lista.
 
 - Método remove(PrendaRopa val):
-Complejidad de tiempo: O(log(n))
-Complejidad de espacio: O(log(n))
-Justificación:
-El método remove elimina un nodo con el valor val del árbol. Si el árbol no está vacío (root != 0), primero verifica si el valor a eliminar está en el nodo raíz (val == root->value). Si es así, encuentra el sucesor del nodo raíz, conecta los subárboles del sucesor con el nodo raíz y luego elimina el nodo raíz. Esto tiene una complejidad de tiempo constante O(1) porque involucra operaciones simples.
-Si el valor a eliminar no está en el nodo raíz, llama al método remove en el nodo raíz (root->remove(val)), que tiene una complejidad de tiempo de O(log(n)) en un árbol balanceado, ya que implica recorrer el árbol hacia abajo.
-La complejidad de espacio también es O(log(n)), ya que la eliminación se realiza de manera recursiva, creando una llamada de pila para cada nivel del árbol.
+  - Complejidad de tiempo: O(n)
+  - Complejidad de espacio: O(1)
+  - Justificación: La eliminación de un elemento implica buscar el elemento en la lista, lo cual puede requerir recorrerla por completo en el peor caso. La complejidad de espacio es constante ya que no se utiliza memoria adicional en función del tamaño de la lista.
 
 - Método removeAll():
-Complejidad de tiempo: O(n)
-Complejidad de espacio: O(n)
-Justificación:
-El método removeAll elimina todos los nodos del árbol. Si el árbol no está vacío (root != 0), invoca el método removeChilds() en el nodo raíz (root->removeChilds()). Este método elimina recursivamente todos los hijos de un nodo dado.
-La complejidad de tiempo es O(n) porque se llama al método removeChilds() para cada nodo del árbol, y cada llamada a este método implica visitar todos los nodos de un subárbol. En el peor caso, se recorren todos los nodos del árbol una vez.
-La complejidad de espacio también es O(n) debido a las llamadas recursivas. Cada llamada crea una nueva instancia de la pila, y en el peor caso, hay n llamadas de función pendientes en la pila, lo que lleva a un uso de espacio proporcional a n.
-
-- Método inorder() const:
-Complejidad de tiempo: O(n)
-Complejidad de espacio: O(n)
-Justificación:
-El método inorder realiza un recorrido inorden en el árbol, que visita todos los nodos en el orden correcto. Si el árbol no está vacío (!empty()), invoca el método inorder en el nodo raíz (root->inorder(aux)).
-La complejidad de tiempo es O(n), donde n es el número de nodos en el árbol. En cada llamada recursiva, se procesa un nodo, y como máximo se procesa cada nodo una vez.
-La complejidad de espacio es O(n) debido a las llamadas recursivas. En el peor caso, hay n llamadas de función pendientes en la pila, lo que lleva a un uso de espacio proporcional al número de nodos.
-La operación principal dentro del método (aux << "[") y aux << "]";) tiene una complejidad constante ya que son operaciones simples de inserción en un stringstream.
-
-- Método preorder() const:
-Complejidad de tiempo: O(n)
-Complejidad de espacio: O(n)
-Justificación:
-El método preorder realiza un recorrido en preorden en el árbol, que visita todos los nodos en el orden correcto. Si el árbol no está vacío (!empty()), invoca el método preorder en el nodo raíz (root->preorder(aux)).
-La complejidad de tiempo es O(n), donde n es el número de nodos en el árbol. En cada llamada recursiva, se procesa un nodo, y como máximo se procesa cada nodo una vez.
-La complejidad de espacio es O(n) debido a las llamadas recursivas. En el peor caso, hay n llamadas de función pendientes en la pila, lo que lleva a un uso de espacio proporcional al número de nodos.
-La operación principal dentro del método (aux << "[") y aux << "]";) tiene una complejidad constante ya que son operaciones simples de inserción en un stringstream.
-En resumen, el método preorder() const tiene una complejidad de tiempo y espacio lineal O(n) en un árbol binario de búsqueda balanceado, ya que procesa cada nodo exactamente una vez.
+  - Complejidad de tiempo: O(n)
+  - Complejidad de espacio: O(1)
+  - Justificación: Eliminar todos los nodos de la lista implica recorrerla por completo y eliminar cada nodo individualmente. La complejidad de espacio es constante ya que no se utiliza memoria adicional en función del tamaño de la lista.
 
 - Método mostrarDatos():
-Complejidad de tiempo: O(n)
-Complejidad de espacio: O(n)
-Justificación:
-El método mostrarDatos parece invocar el método mostrarDatoss en el nodo raíz del árbol, que probablemente es un método que devuelve una representación en cadena de los datos del nodo. Si el árbol no está vacío (root != 0), invoca el método mostrarDatoss en el nodo raíz (root->mostrarDatoss()).
-La complejidad de tiempo es O(n), donde n es el número de nodos en el árbol. En cada llamada recursiva, se procesa un nodo, y como máximo se procesa cada nodo una vez.
-La complejidad de espacio es O(n) debido a las llamadas recursivas. En el peor caso, hay n llamadas de función pendientes en la pila, lo que lleva a un uso de espacio proporcional al número de nodos.
-La operación principal dentro del método (datos += root->mostrarDatoss();) tiene una complejidad constante en cada llamada recursiva.
+  - Complejidad de tiempo: O(n)
+  - Complejidad de espacio: O(1)
+  - Justificación: Este método imprime los datos de todas las prendas en la lista, recorriéndola por completo. La complejidad de espacio es constante ya que no se utiliza memoria adicional en función del tamaño de la lista.
 
-- Método search(int _id):
-Complejidad de tiempo: O(log(n)) en promedio para un árbol balanceado, O(n) en el peor caso
-Complejidad de espacio: O(1)
-Justificación:
-El método search busca un nodo con el ID proporcionado en el árbol. Si el árbol no está vacío (root != 0), invoca el método search en el nodo raíz (root->search(_id)).
-La complejidad de tiempo es O(log(n)) en promedio para un árbol balanceado, ya que en cada paso se reduce la búsqueda a la mitad del árbol. Sin embargo, en el peor caso, donde el árbol no está balanceado y tiene una estructura de lista enlazada, la complejidad sería O(n), ya que podría ser necesario recorrer todo el árbol.
-La complejidad de espacio es O(1), ya que no se utiliza memoria adicional en función del tamaño del árbol.
-
-- Métodos filtrar(string _query): //tipo, color, talla, material, estado
-Complejidad de tiempo: O(n)
-Complejidad de espacio: O(1)
-Justificación:
-El método filtrar parece realizar un filtrado de nodos basado en un tipo de consulta _query. Si el árbol no está vacío (root != 0), invoca el método filtrar en el nodo raíz (root->filtrar(_query)).
-La complejidad de tiempo es O(n), donde n es el número de nodos en el árbol. En el peor caso, se debe visitar cada nodo del árbol para aplicar el filtro.
-La complejidad de espacio es O(1), ya que no se utiliza memoria adicional en función del tamaño del árbol.
-
-- Método ordenarPuestas(int _p, string _tipo):
-Complejidad de tiempo: O(n)
-Complejidad de espacio: O(1)
-Justificación:
-El método ordenarPuestas parece realizar alguna operación de ordenamiento o clasificación de nodos basada en un parámetro _p y un tipo _tipo. Si el árbol no está vacío (root != 0), invoca el método ordenarPuestas en el nodo raíz (root->ordenarPuestas(_p, _tipo)).
-La complejidad de tiempo es O(n), donde n es el número de nodos en el árbol. En el peor caso, se debe visitar cada nodo del árbol para realizar la operación de ordenamiento.
-La complejidad de espacio es O(1), ya que no se utiliza memoria adicional en función del tamaño del árbol.
-
-- Método contar_prendas():
-Complejidad de tiempo: O(n)
-Complejidad de espacio: O(1)
-Justificación:
-El método contar_prendas parece contar la cantidad total de prendas en el árbol. Si el árbol no está vacío (root != 0), invoca el método contar_prendas en el nodo raíz (root->contar_prendas()).
-La complejidad de tiempo es O(n), donde n es el número de nodos en el árbol. En el peor caso, se debe visitar cada nodo del árbol para contar las prendas.
-La complejidad de espacio es O(1), ya que no se utiliza memoria adicional en función del tamaño del árbol.
-
-- Método reasignarID():
-Complejidad de tiempo: O(n)
-Complejidad de espacio: O(1)
-Justificación:
-El método reasignarID parece realizar alguna operación de reasignación de identificadores (IDs) en los nodos del árbol. Si el árbol no está vacío (root != 0), invoca el método reasignarID en el nodo raíz (root->reasignarID(1)).
-La complejidad de tiempo es O(n), donde n es el número de nodos en el árbol. En el peor caso, se debe visitar cada nodo del árbol para realizar la operación de reasignación de IDs.
-La complejidad de espacio es O(1), ya que no se utiliza memoria adicional en función del tamaño del árbol.
+- Métodos filtrarTipo, filtrarColor, filtrarTalla, filtrarMaterial, filtrarEstado:
+- Estos métodos realizan un recorrido completo de la lista enlazada doble (DLL) e imprimen los datos de las prendas que coinciden con el criterio de filtrado. La complejidad de tiempo y espacio de estos métodos es lineal, O(n), ya que deben examinar cada elemento de la lista para aplicar el filtro.
+  - Complejidad de tiempo: O(n): En el peor caso, cada nodo de la lista debe ser revisado para verificar si cumple con el criterio de filtrado.
+  - Complejidad de espacio: O(1): No se utiliza memoria adicional en función del tamaño de la lista, la impresión se realiza directamente en la consola y no implica almacenamiento adicional.
+ 
+- Método ordenarPuestas: Este método utiliza un enfoque más eficiente utilizando std::sort de la biblioteca de algorithm de C++. La complejidad de tiempo de std::sort es O(n log(n)), que es mejor que O(n^2) de un algoritmo de ordenación cuadrático.
+  - Complejidad de tiempo: O(n log(n)): La operación principal es la ordenación de las prendas basada en el número de puestas.
+  - Complejidad de espacio: O(n): Se utiliza un vector auxiliar para almacenar las prendas antes de ordenarlas, lo que requiere espacio adicional proporcional al número de elementos en la lista.
+ 
+- Método search: Este método realiza un recorrido lineal en la lista para buscar un nodo con el ID proporcionado. La complejidad de tiempo es O(n) en el peor caso.
+  - Complejidad de tiempo: O(n): En el peor caso, se debe recorrer toda la lista para encontrar el nodo con el ID proporcionado.
+  - Complejidad de espacio: O(1): No se utiliza memoria adicional en función del tamaño de la lista.
+  
+- Método reasignarID: Este método realiza un recorrido lineal en la lista para reasignar los IDs en orden ascendente. La complejidad de tiempo es O(n) en el peor caso.
+  - Complejidad de tiempo: O(n): En el peor caso, se debe recorrer toda la lista para reasignar los IDs en orden ascendente.
+  - Complejidad de espacio: O(1): No se utiliza memoria adicional en función del tamaño de la lista.
 
 ### Hace un análisis de complejidad correcto y completo para todos los demás componentes del programa y determina la complejidad final del programa.
 
-##### Hay métodos que no fueron mencionados en los anteriores, porque van más en cuanto a la administración de archivos, en cuanto a lectura y escritura de los mismos, los englobaré en el mismo análisis asintótico debido a que hacen acciones realmente similares y están declarados en el archivo ClosetLavadora.h a partor de la línea 667
-- Método creaCloset(), creaTienda(), y actualizaArchivo(Arbol* arbol):
-Complejidad de tiempo: O(n)
+##### Hay métodos que no fueron mencionados en los anteriores, porque van más en cuanto a la administración de archivos, en cuanto a lectura y escritura de los mismos, así como también métodos que recorren la DLL de tienda y del closet para determinar el número de prendas limpias y las que se están lavando y están declarados en el archivo ClosetLavadora.h entre las líneas 222 y 257 y a partir de la línea 643
+
+- Función limpias:
+
+Complejidad de tiempo: O(n^2)
+La función realiza un bucle que recorre la lista de prendas (num_prendas) y en cada iteración realiza una búsqueda en la lista doblemente enlazada (Closet->search(j)).
+La búsqueda en la lista implica recorrer la lista enlazada, que tiene una complejidad de tiempo lineal O(n) en el peor caso. Dado que se realiza n veces en el bucle, la complejidad total es O(n^2).
 Complejidad de espacio: O(1)
-Justificación:
-El método lee información desde un archivo CSV línea por línea utilizando un bucle while, por lo que la complejidad de tiempo está dominada por el número de líneas en el archivo.
-En cada línea, se realiza un análisis adicional para separar los campos y luego se invoca el método crearPrenda que probablemente crea un nodo en el árbol. La creación de cada prenda y la invocación de crearPrenda son operaciones de tiempo constante O(1).
-La complejidad de espacio es O(1) ya que las variables adicionales (por ejemplo, las cadenas nombre, tipo, etc.) ocupan una cantidad constante de espacio independientemente del tamaño del archivo.
-Por otro lado, para el actualizaArchivo, realiza una operación de escritura en un archivo CSV basada en la información almacenada en un árbol.
-La complejidad de tiempo está dominada por el número total de prendas en el árbol, ya que se recorre el árbol y se escribe la información de cada prenda en el archivo.
-En cada iteración del bucle for, se realiza una operación constante de escritura en el archivo, y el bucle se ejecuta una vez por cada prenda en el árbol.
-La complejidad de espacio es constante O(1) ya que las variables adicionales (por ejemplo, la variable prenda) ocupan una cantidad constante de espacio independientemente del tamaño del árbol.
-El método no utiliza memoria adicional en función del tamaño del árbol.
+Se utilizan variables locales (i, num, j, nodo) que no dependen del tamaño de la entrada, por lo que la complejidad de espacio es constante.
+Función lavando:
+
+Complejidad de tiempo: O(n^2)
+Similar a la función limpias, realiza un bucle que recorre la lista de prendas (num_prendas) y en cada iteración realiza una búsqueda en la lista doblemente enlazada (Closet->search(j)).
+La búsqueda en la lista implica recorrer la lista enlazada, que tiene una complejidad de tiempo lineal O(n) en el peor caso. Dado que se realiza n veces en el bucle, la complejidad total es O(n^2).
+Complejidad de espacio: O(1)
+Se utilizan variables locales (i, num, j, nodo) que no dependen del tamaño de la entrada, por lo que la complejidad de espacio es constante.
+
 
 #### Complejidad final del programa:
  Es posible conseguir que aunque se comience con un árbol no degenerado, existe la posibilidad de que haciendo uso de muchos de los métodos mencionados con anterioridad que modifican el árbol, en este caso, add y remove, para que el árbol quede completamente degenerado, lo que implicaría que el árbol ya no sería un árbol de búsqueda binaria como tal, sino más una Singly-Linked List, aunque sin la particularidad de la tail que esta tiene, por lo que para incersiones, eliminaciones y búsquedas, en el peor de los casos tenemos una complejidad temporal de O(n), teniendo que recorrer todos los nodos y su complejidad espacial sería nuevamente de O(n). En este caso, perdería toda la eficiencia que caracteriza al BST como tal.
