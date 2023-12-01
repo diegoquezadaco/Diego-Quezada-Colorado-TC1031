@@ -82,7 +82,7 @@ Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que 
   - Complejidad de tiempo: O(n): En el peor caso, cada nodo de la lista debe ser revisado para verificar si cumple con el criterio de filtrado.
   - Complejidad de espacio: O(1): No se utiliza memoria adicional en función del tamaño de la lista, la impresión se realiza directamente en la consola y no implica almacenamiento adicional.
  
-- Método ordenarPuestas: Este método utiliza un enfoque más eficiente utilizando std::sort de la biblioteca de algorithm de C++. La complejidad de tiempo de std::sort es O(n log(n)), que es mejor que O(n^2) de un algoritmo de ordenación cuadrático.
+- Método ordenarPuestas: Este método utiliza un enfoque más eficiente utilizando std::sort de la biblioteca de algorithm de C++. La complejidad de tiempo de std::sort, que hace un quicksort es O(n log(n)), que es mejor que O(n^2) de un algoritmo de ordenación cuadrático.
   - Complejidad de tiempo: O(n log(n)): La operación principal es la ordenación de las prendas basada en el número de puestas.
   - Complejidad de espacio: O(n): Se utiliza un vector auxiliar para almacenar las prendas antes de ordenarlas, lo que requiere espacio adicional proporcional al número de elementos en la lista.
  
@@ -116,29 +116,29 @@ Respecto a la estructura de datos, hago uso de una lista doblemente ligada, que 
 
 
 #### Complejidad final del programa:
-Analizando el que podría ser el pero caso del programa, y analizando los algoritmos 
-
-
+Analizando el que podría ser el peor caso del programa, y tomando como base los análisis asintóticos previos, podemos decir que la complejidad final del programa sería de:
+- Complejidad de tiempo: Sabiendo que la función que tiene un peor tiempo asintótico son las funciones creaCloset y creaTienda, podemos decir que son las función cuello de botella, que tiene una complejidad de O(n* m), el resto de funciones, tienen complejidades logarítmicas, lineales o constantes (O(n log(n)), O(n) o O(1) respectivamente), por lo tanto, podemos afirmar que la complejidad de tiempo total del programa, en su peor caso, se aproxima a O(n*m)
+- Complejidad de espacio: Las funciones que peor complejidad espacial tienen son nuevamente las funciones de creaCloset, creaTienda y también la de ordenarPuestas, Y al final de cuentas tiene sentido, porque son las funciones principales del programa en general, y crean las estructuras de las cual el programa se basa para funcionar, que en el caso de creaCloset y creaTienda es que hacen DLL para Closet y para Tienda, mientras ordenarPuestas, genera un vector auxiliar que precisamente es clave para ordenar las prendas por puestas, que es uno de los aspectos clave del ClosetLavadora. Estas funciones tienen una complejidad espacial de O(n), ya que ambas dependen de un n nuúmero de prendas para en base a eso generar la estructura correspondiente, el resto de funciones tienen complejidad espacial constante O(1), por lo que la complejidad espacial final se aproxima a O(n).
 
 ## SICT0302: Toma decisiones
 
 ### Selecciona un algoritmo de ordenamiento adecuado al problema y lo usa correctamente.
-QuickSort es una elección sólida para ordenar un closet de prendas de vestir, especialmente si valoras la eficiencia promedio y la adaptabilidad a datos parcialmente ordenados. Aunque ahora con la incorporación de la estructura de árbol BST, el algoritmo de búsqueda prácticamente viene incluido con la estructura y es aún más eficiente que el QuickSort, y es adecuado y muy eficaz cuando se trabaja con un árbol al menos relativamente ordenado y no tan degenerado, ya que mejora mucho el tiempo asintótico de la búsqueda de los elementos
+QuickSort es una elección sólida para ordenar un closet de prendas de vestir, especialmente si valoras la eficiencia promedio y la adaptabilidad a datos parcialmente ordenados. Ahora con la incorporación de la estructura de la lista doblemente ligada DLL, utilizamos este algoritmo de ordenamiento en una de las funciones principales del closet que es ordenaPuestas, donde crea un vector auxiliar para precisamente poder hacer uso de esta eficiencia.
 
 ### Selecciona una estructura de datos adecuada al problema y lo usa correctamente.
 
-Nuevamente mencionamos que establecimos una estructura de árbol BST, donde cada nodo de dicho árbol es un elemento de tipo Prenda Ropa y organiza de buena manera la estructura clave para el manejo de datos en ClosetLavadora, aunque los métodos para realizar la organización como tal del árbol y administrar los nodos y leer los datos, se encuentra explicita en la declaración de Arbol.h, cuyas funciones fueron previamente desglosadas, y para hacer uso correcto de los datos, alteraremos un poco el orden de la importación de los datos desde el archivo CSV, para que el algoritmo de búsqueda sea de la mejor manera posible
+Nuevamente mencionamos que establecimos una estructura de una lista doblemente ligada DLL, donde cada nodo o elemento de dicha lista es un elemento de tipo Prenda Ropa y organiza de buena manera la estructura clave para el manejo de datos en ClosetLavadora, aunque los métodos para realizar la organización como tal de la lista doblemente ligada y administrar los nodos y leer los datos,etc., se encuentra explicita en la declaración de DLL.h, cuyas funciones fueron previamente desglosadas. Sin embargo, añadí funciones extra a la estructura como tal, para hacer las funciones principales del closet, como por ejemplo, filtrar por atributo, ordenarPuestas, reasignarID y mostrarDatos, y de esta manera adaptamos la estructura a nuestro problema. 
 
 ## SICT0303: Implementa acciones científicas
 
 ### Implementa mecanismos para consultar información de las estructras correctos.
-Auxiliados de la estructura general del árbol BST, se crearon funciones auxiliares en dich archivo (Arbol.h), que ayudan a extraer valores recorriendo el árbol, en este caso, son las funciones que fueron desglosadas anteriormente que son mostrarDatos(), declarada en la 507 del archivo Arbol.h, que se apoya a su vez de la llamada de la función de Nodo mostrarDatoss(), declarada en la linea 224 del mismo archivo, que a su vez de apoya de la llamada de la función mostrarDatos(), declarada en la linea 216 del archivo PrendaRopa.h, y se muestran la de todo el arbol de closet o tienda respectivamente haciendo uso de la llamada de las funciones mencionadas anteriormente en la funcion consultarCloset(), de la clase ClosetLavadora.h en la linea  312, donde se muestran apiladas y divididas en una tabla por atributo.
+Auxiliados de la estructura general de la lista doblemente ligada, se crearon funciones auxiliares en dicoh archivo (DLL.h), que ayudan a extraer valores recorriendo esta lista, en este caso, son las funciones que fueron desglosadas anteriormente que son mostrarDatos(), declarada en la 341 del archivo DLL.h, que a su vez de apoya de la llamada de la función mostrarDatos(), declarada en la linea 221 del archivo PrendaRopa.h, y se muestran la de todo el arbol de closet o tienda respectivamente haciendo uso de la llamada de las funciones mencionadas anteriormente en la funcion consultarCloset(), de la clase ClosetLavadora.h en la linea  312 o la función comprarPrenda donde se despliegan las prendas de la tienda, declarada en el mismo archivo en la línea 365 , donde se muestran apiladas y divididas en una tabla por atributo. Asímismo en las funciones filtrarCloset por atributo o en la función ordenarClosetPuestas por tipo de prenda, todas declaradas entre las líneas 417 a 630 del archivo ClosetLavadora.h, que de igual manera se apoya de ña función mostrarDatos() del archivo DLL.h.
 
 ### Implementa mecanismos de lectura de archivos para cargar datos a las estructuras de manera correcta.
-- En el archivo de ClosetLavadora, con ayuda de las 2 penúltimas funciones (la penúltima y la penúltima), es decir creaCloset y creaTienda, se importan los datos de un archivo .csv a la estructura del árbol, con ayuda de la librería fstream, en el proceso se involucra el proceso de apertura y lectura correcta de archivos para incluirlos correctamente en el árbol. 
+- En el archivo de ClosetLavadora, con ayuda de las 2 penúltimas funciones (la antepenúltima y la penúltima), es decir creaCloset y creaTienda, declaradas de la línea 644 a la 796 se importan los datos de un archivo .csv a la estructura de DLL, con ayuda de la librería fstream, en el proceso se involucra el proceso de apertura y lectura correcta de archivos para incluirlos correctamente en el árbol. 
 
 ### Implementa mecanismos de escritura de archivos para guardar los datos  de las estructuras de manera correcta.
-- A su vez en la última función de dicho archivo es decir actualizarArchivo(Arbol* arbol), declarada en la línea 859 del archivo ClosetLavadora.h, nuevamente apoyados de la libreria para editar archivos fstream, hacemos un ciclo para recorrer el arbol por completo, después de todos los cambios efectuados durante el ciclo, para que guarde los cambios efectuados, reescribiendo el archivo, respetando el formato, y de esta manera en proximas corridad del programa no se empieza de 0, sino desde el último cambio o modificación efectuada.
+- A su vez en la última función de dicho archivo es decir actualizarArchivo(DLL* DLL), declarada en la línea 810 del archivo ClosetLavadora.h, nuevamente apoyados de la libreria para editar archivos fstream, hacemos un ciclo para recorrer el arbol por completo, después de todos los cambios efectuados durante el ciclo, para que guarde los cambios efectuados, reescribiendo el archivo, respetando el formato, y de esta manera en proximas corridas del programa no se empieza de 0, sino desde el último cambio o modificación efectuada.
 
 ## Consideraciones:
 Todos los archivos deben estar en la misma carpeta, para que el prorgrama funcione correctamente
@@ -155,6 +155,7 @@ El programa solo corre en la consola o en replit también y esta hecho con c++ s
 - Ingresa solo el número correspondiente a la opción que desea ejecutar y presione Enter.
 - Siga las instrucciones en pantalla para completar la operación seleccionada.
 - El programa proporcionará retroalimentación y resultados de las operaciones realizada
+- Si se llegan a ingresar incongruencias, por ejemplo IDs de prendas que no existen, se arrojarán exceptions que termiinarán el prgrama de inmediato
 
 ## Restricciones o casos en los que el programa deja de funcionar:
--Cuando se solicite la entrada de datos, por lo general se dan opciones de numeros para que el usuario escoja o en su defecto, se pide que se escriba un nombre o la palabra si o no. Para estos casos, favor de ser muy cuidadoso e ingresar el tipo de dato que se espera, de lo contrario, el programa deja de funcionar
+-Cuando se solicite la entrada de datos, por lo general se dan opciones de numeros para que el usuario escoja o en su defecto. Para estos casos, favor de ser muy cuidadoso e ingresar el tipo de dato que se espera, de lo contrario, el programa deja de funcionar y como se mencionó, se arrojan exceptions que terminan el programa y pierdes tu progreso
