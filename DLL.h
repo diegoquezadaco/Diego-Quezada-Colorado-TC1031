@@ -158,8 +158,6 @@ class DLL{
         bool find(PrendaRopa) const;
         void remove(PrendaRopa);
         void removeAll();
-        string inorder() const;
-        string preorder() const;
         string mostrarDatos();
         void filtrarTipo(string _query);
         void filtrarColor(string _query);
@@ -331,40 +329,6 @@ void DLL::removeAll(){
     head = NULL;
     tail = NULL;
     size = 0;
-}
-
-/**
- * inorder
- * Este metodo regresa un string con los ids de las prendas en orden ascendente
- * @param
- * @return string
-*/
-
-string DLL::inorder() const{
-    stringstream aux;
-    DLink* tmp = head;
-    while(tmp != NULL){
-        aux << tmp->getData().getID() << " ";
-        tmp = tmp->getNext();
-    }
-    return aux.str();
-}
-
-/**
- * preorder
- * Este metodo regresa un string con los ids de las prendas en orden descendente
- * @param
- * @return string
-*/
-
-string DLL::preorder() const{
-    stringstream aux;
-    DLink* tmp = tail;
-    while(tmp != NULL){
-        aux << tmp->getData().getID() << " ";
-        tmp = tmp->getPrev();
-    }
-    return aux.str();
 }
 
 /**

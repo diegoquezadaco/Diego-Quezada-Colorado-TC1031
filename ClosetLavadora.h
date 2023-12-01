@@ -643,7 +643,7 @@ void ClosetLavadora::ordenarClosetPuestasCalcetines(){
 
 void ClosetLavadora::creaCloset(){
     using namespace std;
-    string prendas[100];
+    string prendas[200];
     std::ifstream archivoCloset;
     archivoCloset.open("Closeet.csv");
     string texto;
